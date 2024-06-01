@@ -1,6 +1,7 @@
 #include "ShortTest.hpp"
 
 #include "Kwiatkowski.hpp"
+#include "../obstacles/Poop.hpp"
 #include "../Student.hpp"
 #include "../Tear.hpp"
 #include "../../engine/Game.hpp"
@@ -40,4 +41,6 @@ auto ShortTest::onCollisionWith(Collidable& other) -> void {
         other.as<Student>().decreaseHp();
         isAlive_ = false;
     }
+
+    if (other.is<Poop>()) isAlive_ = false;
 }

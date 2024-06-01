@@ -1,0 +1,3 @@
+Drzwi to Collidable i kolizja z nimi pozwala nam przejść do innego pokoju
+
+Przed rysowaniem można sortować Drawables po Y rosnąco

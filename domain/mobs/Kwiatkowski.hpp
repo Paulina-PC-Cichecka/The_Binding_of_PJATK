@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../engine/Collidable.hpp"
+#include "../../engine/Game.hpp"
 #include "SFML/Graphics/Rect.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/System/Clock.hpp"
@@ -17,7 +18,7 @@ class Kwiatkowski : public Collidable, public sf::Drawable {
 public:
     Kwiatkowski(sf::Texture const&);
 
-    auto moveTowards(sf::Vector2f const) -> void;
+    auto moveTowards(sf::Vector2f const, Game const&) -> void;
 
     auto getGlobalBounds() const -> sf::FloatRect override;
 

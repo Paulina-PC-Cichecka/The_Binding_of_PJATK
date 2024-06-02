@@ -23,6 +23,7 @@ class Game {
     std::vector<sf::Drawable*> enqueuedDrawables_;
 
     Assets assets_;
+    bool kwiatkowskiWasSpawned = false;
 
     sf::FloatRect movementSurface_;
 public:
@@ -66,4 +67,6 @@ public:
     auto drawables() const -> std::vector<sf::Drawable*> const& {
         return drawables_;
     }
+
+    auto spawnKwiatkowskiIfNecessary() -> void;
 };

@@ -8,5 +8,6 @@ auto Upgrade::update(Game& game) -> void {
                 e->kill();
             }
         }
+        game.spawnKwiatkowskiIfNecessary();
     }
 }

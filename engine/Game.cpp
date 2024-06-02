@@ -36,14 +36,6 @@ Game::Game(sf::RenderWindow& window)
     collidables_.push_back(student.get());
     entities_.push_back(std::move(student));
 
-    auto kwiatkowski = std::make_unique<Kwiatkowski>(
-        assets_.textures()[Assets::Element::KWIATKOWSKI]
-    );
-
-    drawables_.push_back(kwiatkowski.get());
-    collidables_.push_back(kwiatkowski.get());
-    entities_.push_back(std::move(kwiatkowski));
-
     auto poop1 = std::make_unique<Poop>(
         assets_.textures()[Assets::Element::POOP],
         sf::Vector2f(assets_.desktopMode().width / 2, 1280)
@@ -255,5 +247,18 @@ auto Game::removeAllDeadElements() -> void { {
             return not el->isAlive();
         });
         entities_.erase(toErase.begin(), toErase.end());
+    }
+}
+
+auto Game::spawnKwiatkowskiIfNecessary() -> void {
+    if (not kwiatkowskiWasSpawned) {
+        kwiatkowskiWasSpawned = true;
+        auto kwiatkowski = std::make_unique<Kwiatkowski>(
+            assets_.textures()[Assets::Element::KWIATKOWSKI]
+        );
+
+        enqueuedDrawables_.push_back(kwiatkowski.get());
+        enqueuedCollidables_.push_back(kwiatkowski.get());
+        enqueuedEntities_.push_back(std::move(kwiatkowski));
     }
 }

@@ -1,5 +1,6 @@
 #include "Boots.hpp"
 
+#include "../Student.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 
 Boots::Boots(sf::Texture const& bootsTexture, sf::Vector2f const initialPosition) {
@@ -22,3 +23,9 @@ auto Boots::draw(sf::RenderTarget& target, sf::RenderStates states) const -> voi
     target.draw(boots_);
 }
 
+auto Boots::onCollisionWith(Collidable& other) -> void {
+    if (other.is<Student>()) {
+        other.as<Student>().makeTearsBigger();
+        isAlive_ = false;
+    }
+}

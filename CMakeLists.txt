@@ -36,6 +36,7 @@ add_executable(Game2D
         domain/mobs/Smyczek.cpp
         domain/mobs/Bush.cpp
         domain/obstacles/Poop.cpp
+        domain/obstacles/Door.cpp
         domain/upgrades/Boots.cpp
         domain/upgrades/Sushi.cpp
         domain/upgrades/Drug.cpp

@@ -40,6 +40,10 @@ auto Assets::loadBasement() -> void {
     genericMapElements_.push_back(bottomRight);
 }
 
+auto Assets::loadDoor() -> void {
+    storage_[Element::DOOR].loadFromFile("../assets/Door.png");
+}
+
 auto Assets::loadStudent() -> void {
     storage_[Element::STUDENT].loadFromFile("../assets/Student.png");
 }

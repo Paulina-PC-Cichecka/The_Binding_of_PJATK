@@ -2,6 +2,7 @@
 
 #include "Kwiatkowski.hpp"
 #include "../Student.hpp"
+#include "../../cmake-build-debug/_deps/sfml-src/src/SFML/Window/Win32/CursorImpl.hpp"
 #include "../obstacles/Poop.hpp"
 #include "../../engine/Utility.hpp"
 #include "../../engine/Game.hpp"
@@ -19,69 +20,41 @@ auto Kwiatkowski::moveTowards(sf::Vector2f const destination, Game const& game) 
     auto from = kwiatkowski_.getPosition();
 
     auto direction = normalized(destination - from);
-    {
-        kwiatkowski_.move(direction);
 
-        auto objectWeCollidedWith = std::ranges::find_if(
-            game.collidables(), [this](Collidable* c) {
-                return c->getGlobalBounds().intersects(getGlobalBounds()) and c->is<Poop>();
-            }
-        );
+    kwiatkowski_.move(direction);
 
-        auto const weCollidedWhileMoving = objectWeCollidedWith != game.collidables().end();
+    auto const objectWeCollidedWith = std::ranges::find_if(
+        game.collidables(), [this](Collidable* c) {
+            return c->getGlobalBounds().intersects(getGlobalBounds()) and c->is<Poop>();
+        }
+    );
 
-        if (weCollidedWhileMoving) {
-            fmt::println("about to collide!");
-            // go back
+    auto const weCollidedWhileMoving = objectWeCollidedWith != game.collidables().end();
+
+    if (weCollidedWhileMoving) {
+        // go back
+        kwiatkowski_.setPosition(from);
+        auto const moveOnlyUpOrDown = sf::Vector2f(0, direction.y > 0 ? 1 : -1);
+        kwiatkowski_.move(moveOnlyUpOrDown);
+
+        auto const needToMoveLeftOrRightInstead =
+                (*objectWeCollidedWith)->getGlobalBounds().intersects(getGlobalBounds());
+
+        if (needToMoveLeftOrRightInstead) {
             kwiatkowski_.setPosition(from);
-            auto& obj = **objectWeCollidedWith;
-
-            if (obj.getGlobalBounds().intersects(getGlobalBounds())) fmt::println("we went back and are STILL colliding... (1)");
-
-            auto alteredDirection = direction;
-            alteredDirection.x = -2; // TODO: ujemne czy dodatanie?
-            alteredDirection.y = 1;
-            kwiatkowski_.move(alteredDirection);
-            if (obj.getGlobalBounds().intersects(getGlobalBounds())) {
-                // still intersecting, go back and change `y` instead
-                kwiatkowski_.setPosition(from);
-                if (obj.getGlobalBounds().intersects(getGlobalBounds())) fmt::println("we went back and are STILL colliding... (2)");
-            } else {
-                alteredDirection = direction;
-                alteredDirection.y = -2; // TODO: ujemne czy dodatnie?
-                alteredDirection.x = 1;
-                kwiatkowski_.move(alteredDirection);
-                if (obj.getGlobalBounds().intersects(getGlobalBounds())) fmt::println("we went back and are STILL colliding... (3)");
-            }
-        } else {
-            kwiatkowski_.move(direction);
+            auto const moveOnlyLeftOrRight = sf::Vector2f(direction.x > 0 ? 1 : -1, 0);
+            kwiatkowski_.move(moveOnlyLeftOrRight);
         }
     }
-    // auto const placeToMove = getPosition() + direction;
-    // auto objectWeAreAboutToCollideWith = std::ranges::find_if(
-    //     game.collidables(), [placeToMove](Collidable* c) {
-    //         return c->getGlobalBounds().contains(placeToMove) and c->is<Poop>();
-    //     }
-    // );
-    //
-    // if (objectWeAreAboutToCollideWith != game.collidables().end()) {
-    //     auto& obj = **objectWeAreAboutToCollideWith;
-    //     auto alteredPlaceToMove = placeToMove;
-    //     alteredPlaceToMove.x = 0;
-    //     if (not obj.getGlobalBounds().contains(alteredPlaceToMove)) {
-    //         kwiatkowski_.setPosition(alteredPlaceToMove);
-    //     } else {
-    //         alteredPlaceToMove = placeToMove;
-    //         alteredPlaceToMove.y = 0;
-    //         kwiatkowski_.setPosition(alteredPlaceToMove);
-    //     }
-    // } else {
-    //     kwiatkowski_.move(direction);
-    // }
 }
 
 auto Kwiatkowski::getGlobalBounds() const -> sf::FloatRect {
-    return kwiatkowski_.getGlobalBounds();
+    auto defaultBounds = kwiatkowski_.getGlobalBounds();
+    defaultBounds.left += 10;
+    defaultBounds.top += 5;
+    defaultBounds.width -= 20;
+    defaultBounds.height -= 10;
+    return defaultBounds;
 }
 
 auto Kwiatkowski::getPosition() -> sf::Vector2f {

@@ -25,7 +25,7 @@ auto Boots::draw(sf::RenderTarget& target, sf::RenderStates states) const -> voi
 
 auto Boots::onCollisionWith(Collidable& other) -> void {
     if (other.is<Student>()) {
-        other.as<Student>().makeTearsBigger();
+        other.as<Student>().becomeFAST();
         isAlive_ = false;
     }
 }

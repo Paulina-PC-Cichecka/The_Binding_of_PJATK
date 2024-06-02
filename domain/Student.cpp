@@ -147,4 +147,3 @@ auto Student::becomeFAST() -> void {
 auto Student::increaseHp() -> void {
     currentHp_ += 2;
 }
-

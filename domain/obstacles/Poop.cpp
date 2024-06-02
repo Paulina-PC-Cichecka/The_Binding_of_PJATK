@@ -21,5 +21,3 @@ auto Poop::update(Game&) -> void {
 auto Poop::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(poop_);
 }
-
-

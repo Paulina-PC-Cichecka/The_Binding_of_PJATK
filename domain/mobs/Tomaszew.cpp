@@ -89,4 +89,3 @@ auto Tomaszew::decreaseHp() -> void {
     currentHp_ -= 1;
     if (currentHp_ == 0) isAlive_ = false;
 }
-

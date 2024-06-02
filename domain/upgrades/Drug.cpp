@@ -26,4 +26,3 @@ auto Drug::onCollisionWith(Collidable& other) -> void {
         isAlive_ = false;
     }
 }
-

@@ -95,5 +95,3 @@ auto Assets::loadBush() -> void {
 auto Assets::loadCard() -> void {
     storage_[Element::CARD].loadFromFile("../assets/Drug.png");
 }
-
-

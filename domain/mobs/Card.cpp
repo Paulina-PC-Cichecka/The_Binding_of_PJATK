@@ -85,4 +85,3 @@ auto Card::onCollisionWith(Collidable& other) -> void {
 
     if (other.is<Poop>()) isAlive_ = false;
 }
-

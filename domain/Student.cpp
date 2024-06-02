@@ -144,5 +144,7 @@ auto Student::becomeFAST() -> void {
     velocity_ *= 2;
 }
 
-auto increaseHp() -> void {}
+auto Student::increaseHp() -> void {
+    currentHp_ += 2;
+}
 

@@ -1,4 +1,5 @@
 #include "Sushi.hpp"
+#include "../Student.hpp"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -22,3 +23,9 @@ auto Sushi::draw(sf::RenderTarget& target, sf::RenderStates states) const -> voi
     target.draw(sushi_);
 }
 
+auto Sushi::onCollisionWith(Collidable& other) -> void {
+    if (other.is<Student>()) {
+        other.as<Student>().increaseHp();
+        isAlive_ = false;
+    }
+}

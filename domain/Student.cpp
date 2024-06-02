@@ -142,3 +142,8 @@ auto Student::makeTearsBigger() -> void {
 auto Student::becomeFAST() -> void {
     velocity_ *= 2;
 }
+
+auto Student::increaseHp() -> void {
+    currentHp_ += 2;
+}
+

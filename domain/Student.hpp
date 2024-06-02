@@ -59,4 +59,6 @@ public:
     auto makeTearsBigger() -> void;
 
     auto becomeFAST() -> void;
+
+    auto increaseHp() -> void;
 };

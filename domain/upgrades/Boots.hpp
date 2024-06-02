@@ -1,15 +1,14 @@
 #pragma once
+#include "Upgrade.hpp"
 #include "../../engine/Collidable.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 
-class Boots : public Collidable, public  sf::Drawable {
+class Boots : public Upgrade {
     sf::Sprite boots_;
 
 
 public:
     Boots(sf::Texture const&, sf::Vector2f const);
-
-    auto update(Game&) -> void override;
 
     auto getGlobalBounds() const -> sf::FloatRect override;
 

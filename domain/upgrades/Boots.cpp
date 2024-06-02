@@ -15,10 +15,6 @@ auto Boots::getGlobalBounds() const -> sf::FloatRect {
     return boots_.getGlobalBounds();
 }
 
-auto Boots::update(Game& game) -> void {
-
-}
-
 auto Boots::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(boots_);
 }

@@ -1,14 +1,13 @@
 #pragma once
+#include "Upgrade.hpp"
 #include "../../engine/Collidable.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 
-class Sushi : public Collidable, public sf::Drawable{
+class Sushi : public Upgrade {
     sf::Sprite sushi_;
 
 public:
     Sushi(sf::Texture const&, sf::Vector2f const);
-
-    auto update(Game&) -> void override;
 
     auto getGlobalBounds() const -> sf::FloatRect override;
 

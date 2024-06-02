@@ -183,7 +183,7 @@ auto Game::handleKeyReleased(sf::Event const event) -> void {
 
 auto Game::performUpdates() -> void {
     handleCollisions();
-    for (auto const& entity: entities_) {
+    for (auto const& entity : entities_) {
         entity->update(*this);
     }
 

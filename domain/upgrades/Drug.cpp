@@ -15,10 +15,6 @@ auto Drug::getGlobalBounds() const -> sf::FloatRect {
     return drug_.getGlobalBounds();
 }
 
-auto Drug::update(Game& game) -> void {
-
-}
-
 auto Drug::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(drug_);
 }

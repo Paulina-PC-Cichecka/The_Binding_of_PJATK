@@ -1,14 +1,13 @@
 #pragma once
+#include "Upgrade.hpp"
 #include "../../engine/Collidable.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 
-class Drug : public Collidable, public sf::Drawable{
+class Drug : public Upgrade{
     sf::Sprite drug_;
 
 public:
     Drug(sf::Texture const&, sf::Vector2f const);
-
-    auto update(Game&) -> void override;
 
     auto getGlobalBounds() const -> sf::FloatRect override;
 

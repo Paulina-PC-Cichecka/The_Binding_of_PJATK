@@ -15,10 +15,6 @@ auto Sushi::getGlobalBounds() const -> sf::FloatRect {
     return sushi_.getGlobalBounds();
 }
 
-auto Sushi::update(Game&) -> void {
-
-}
-
 auto Sushi::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(sushi_);
 }

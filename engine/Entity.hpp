@@ -19,6 +19,8 @@ public:
 
     auto isAlive() const -> bool { return isAlive_; }
 
+    auto kill() -> void { isAlive_ = false; }
+
     template <typename Target>
     auto is() const -> bool {
         return dynamic_cast<Target const*>(this) != nullptr;

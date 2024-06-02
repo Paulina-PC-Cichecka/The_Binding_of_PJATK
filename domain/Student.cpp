@@ -2,9 +2,8 @@
 #include <iterator>
 
 #include "Student.hpp"
-
-#include "fmt/core.h"
 #include "obstacles/Poop.hpp"
+#include "../engine/Utility.hpp"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -68,12 +67,14 @@ auto Student::update(Game& game) -> void {
     auto xOffset = 0.0f;
     auto yOffset = 0.0f;
 
-    if (movingLeft) xOffset -= velocity_;
-    if (movingRight) xOffset += velocity_;
-    if (movingUp) yOffset -= velocity_;
-    if (movingDown) yOffset += velocity_;
+    if (movingLeft) xOffset -= 1;
+    if (movingRight) xOffset += 1;
+    if (movingUp) yOffset -= 1;
+    if (movingDown) yOffset += 1;
 
-    auto nextPosition = head_.getPosition() + sf::Vector2f(xOffset, yOffset);
+    auto const movementVector = normalized(sf::Vector2f(xOffset, yOffset)) * velocity_;
+
+    auto nextPosition = head_.getPosition() + movementVector;
 
     auto obstacles = std::vector<Collidable*>();
     std::ranges::copy_if(game.collidables(), std::back_inserter(obstacles), [](Collidable const* ptr) {
@@ -85,8 +86,8 @@ auto Student::update(Game& game) -> void {
     });
 
     if (game.movementSurface().contains(nextPosition) and willNotCollideWithAnyObstacles) {
-        head_.move(xOffset, yOffset);
-        body_.move(xOffset, yOffset);
+        head_.move(movementVector);
+        body_.move(movementVector);
     }
 
     if (canShoot()) {
@@ -135,5 +136,9 @@ auto Student::decreaseHp() -> void {
 }
 
 auto Student::makeTearsBigger() -> void {
-    tearScale_ += 1;
+    tearScale_ += 0.5;
+}
+
+auto Student::becomeFAST() -> void {
+    velocity_ *= 2;
 }

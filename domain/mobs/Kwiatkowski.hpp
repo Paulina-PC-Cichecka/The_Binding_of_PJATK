@@ -9,7 +9,7 @@
 
 class Kwiatkowski : public Collidable, public sf::Drawable {
     sf::Sprite kwiatkowski_;
-    float velocity_ = 8.0;
+    float velocity_ = 4.0;
     int maxHp_ = 10;
     int currentHp_ = maxHp_;
     sf::Clock shootingClock_;

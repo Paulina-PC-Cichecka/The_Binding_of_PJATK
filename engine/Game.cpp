@@ -9,9 +9,11 @@
 #include "../domain/Student.hpp"
 #include "../domain/Tear.hpp"
 #include "../domain/mobs/ShortTest.hpp"
+#include "../domain/mobs/Tomaszew.hpp"
 #include "../domain/upgrades/Boots.hpp"
 #include "../domain/upgrades/Drug.hpp"
 #include "../domain/upgrades/Sushi.hpp"
+#include "../engine/Utility.hpp"
 
 Game::Game(sf::RenderWindow& window)
     : window_(window), movementSurface_(319.0f, 319.0f, 2241.0f, 1186.0f) {
@@ -25,6 +27,7 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadBoots();
     assets_.loadSushi();
     assets_.loadDrug();
+    assets_.loadTomaszew();
 
     auto student = std::make_unique<Student>(
         assets_.textures()[Assets::Element::STUDENT],
@@ -251,8 +254,8 @@ auto Game::removeAllDeadElements() -> void { {
 }
 
 auto Game::spawnKwiatkowskiIfNecessary() -> void {
-    if (not kwiatkowskiWasSpawned) {
-        kwiatkowskiWasSpawned = true;
+    if (not kwiatkowskiWasSpawned_) {
+        kwiatkowskiWasSpawned_ = true;
         auto kwiatkowski = std::make_unique<Kwiatkowski>(
             assets_.textures()[Assets::Element::KWIATKOWSKI]
         );
@@ -260,5 +263,23 @@ auto Game::spawnKwiatkowskiIfNecessary() -> void {
         enqueuedDrawables_.push_back(kwiatkowski.get());
         enqueuedCollidables_.push_back(kwiatkowski.get());
         enqueuedEntities_.push_back(std::move(kwiatkowski));
+    }
+}
+
+// 319.0f, 319.0f, 2241.0f, 1186.0f
+auto Game::spawnTomaszewkiIfNecessary() -> void {
+    if (not tomaszewkiWereSpawned_) {
+        tomaszewkiWereSpawned_ = true;
+        auto const tomaszewsToSpawn = randomize(4, 8);
+        for (auto i = 0; i < tomaszewsToSpawn; ++i) {
+            auto tomaszew = std::make_unique<Tomaszew>(
+                assets_.textures()[Assets::Element::TOMASZEW],
+                sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
+            );
+
+            enqueuedDrawables_.push_back(tomaszew.get());
+            enqueuedCollidables_.push_back(tomaszew.get());
+            enqueuedEntities_.push_back(std::move(tomaszew));
+        }
     }
 }

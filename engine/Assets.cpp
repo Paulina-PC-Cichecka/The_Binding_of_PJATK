@@ -75,3 +75,8 @@ auto Assets::loadSushi() -> void {
 auto Assets::loadDrug() -> void {
     storage_[Element::DRUG].loadFromFile("../assets/Drug.png");
 }
+
+auto Assets::loadTomaszew() -> void {
+    storage_[Element::TOMASZEW].loadFromFile("../assets/NibyTomaszew.png");
+}
+

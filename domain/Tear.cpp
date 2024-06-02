@@ -5,6 +5,7 @@
 #include "../engine/Game.hpp"
 #include "../domain/Student.hpp"
 #include "mobs/ShortTest.hpp"
+#include "mobs/Tomaszew.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 
 Tear::Tear(
@@ -36,6 +37,11 @@ auto Tear::getGlobalBounds() const -> sf::FloatRect {
 auto Tear::onCollisionWith(Collidable& other) -> void {
     if (other.is<Kwiatkowski>()) {
         other.as<Kwiatkowski>().decreaseHp();
+        isAlive_ = false;
+    }
+
+    if (other.is<Tomaszew>()) {
+        other.as<Tomaszew>().decreaseHp();
         isAlive_ = false;
     }
 

@@ -21,7 +21,7 @@ auto Kwiatkowski::moveTowards(sf::Vector2f const destination, Game const& game) 
 
     auto direction = normalized(destination - from);
 
-    kwiatkowski_.move(direction);
+    kwiatkowski_.move(direction * velocity_);
 
     auto const objectWeCollidedWith = std::ranges::find_if(
         game.collidables(), [this](Collidable* c) {
@@ -34,7 +34,7 @@ auto Kwiatkowski::moveTowards(sf::Vector2f const destination, Game const& game) 
     if (weCollidedWhileMoving) {
         // go back
         kwiatkowski_.setPosition(from);
-        auto const moveOnlyUpOrDown = sf::Vector2f(0, direction.y > 0 ? 1 : -1);
+        auto const moveOnlyUpOrDown = sf::Vector2f(0, direction.y > 0 ? velocity_ : -velocity_);
         kwiatkowski_.move(moveOnlyUpOrDown);
 
         auto const needToMoveLeftOrRightInstead =
@@ -42,7 +42,7 @@ auto Kwiatkowski::moveTowards(sf::Vector2f const destination, Game const& game) 
 
         if (needToMoveLeftOrRightInstead) {
             kwiatkowski_.setPosition(from);
-            auto const moveOnlyLeftOrRight = sf::Vector2f(direction.x > 0 ? 1 : -1, 0);
+            auto const moveOnlyLeftOrRight = sf::Vector2f(direction.x > 0 ? velocity_ : -velocity_, 0);
             kwiatkowski_.move(moveOnlyLeftOrRight);
         }
     }
@@ -75,6 +75,7 @@ auto Kwiatkowski::update(Game& game) -> void {
         game.spawnShootingShortTest(getPosition(), direction);
         shootingClock_.restart();
     }
+
 }
 
 auto Kwiatkowski::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {

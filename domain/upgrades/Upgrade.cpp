@@ -1,5 +1,6 @@
 #include "Upgrade.hpp"
 #include "../../engine/Game.hpp"
+#include "../../engine/Utility.hpp"
 
 auto Upgrade::update(Game& game) -> void {
     if (!isAlive_) {
@@ -8,6 +9,6 @@ auto Upgrade::update(Game& game) -> void {
                 e->kill();
             }
         }
-        game.spawnKwiatkowskiIfNecessary();
+        game.spawnTomaszewkiIfNecessary();
     }
 }

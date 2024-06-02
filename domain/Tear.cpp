@@ -8,7 +8,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 Tear::Tear(
-    sf::Texture const& texture, sf::Vector2f startingPosition, sf::Vector2f direction
+    sf::Texture const& texture, sf::Vector2f const startingPosition, sf::Vector2f const direction
 ) : direction_(direction * velocity) {
     tear_.setTexture(texture);
     tear_.setTextureRect(sf::IntRect(0, 0, 127, 125));

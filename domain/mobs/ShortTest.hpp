@@ -10,7 +10,7 @@ class ShortTest : public Collidable, public sf::Drawable {
     static const inline auto velocity = 15.0f;
 
 public:
-    ShortTest(sf::Texture const&, sf::Vector2f, sf::Vector2f);
+    ShortTest(sf::Texture const&, sf::Vector2f const, sf::Vector2f const);
 
     auto draw(sf::RenderTarget&, sf::RenderStates) const -> void override;
 

@@ -9,7 +9,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 
-ShortTest::ShortTest(sf::Texture const& texture, sf::Vector2f startingPosition, sf::Vector2f direction
+ShortTest::ShortTest(sf::Texture const& texture, sf::Vector2f const startingPosition, sf::Vector2f const direction
     ) : direction_((direction * velocity)) {
     shortTest_.setTexture(texture);
     shortTest_.setTextureRect(sf::IntRect(22, 45, 337, 269));

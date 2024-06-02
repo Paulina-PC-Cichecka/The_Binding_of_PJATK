@@ -9,6 +9,9 @@
 #include "../domain/Student.hpp"
 #include "../domain/Tear.hpp"
 #include "../domain/mobs/ShortTest.hpp"
+#include "../domain/upgrates/Boots.hpp"
+#include "../domain/upgrates/Drug.hpp"
+#include "../domain/upgrates/Sushi.hpp"
 
 Game::Game(sf::RenderWindow& window)
     : window_(window), movementSurface_(319.0f, 319.0f, 2241.0f, 1186.0f) {
@@ -19,6 +22,9 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadKwiatkowski();
     assets_.loadShortTest();
     assets_.loadPoop();
+    assets_.loadBoots();
+    assets_.loadSushi();
+    assets_.loadDrug();
 
     auto student = std::make_unique<Student>(
         assets_.textures()[Assets::Element::STUDENT],
@@ -64,6 +70,33 @@ Game::Game(sf::RenderWindow& window)
     drawables_.push_back(poop3.get());
     collidables_.push_back(poop3.get());
     entities_.push_back(std::move(poop3));
+
+    auto boots = std::make_unique<Boots>(
+        assets_.textures()[Assets::Element::BOOTS],
+        sf::Vector2f(assets_.desktopMode().width / 2 + 5, 1200)
+    );
+
+    drawables_.push_back(boots.get());
+    collidables_.push_back(boots.get());
+    entities_.push_back(std::move(boots));
+
+    auto sushi = std::make_unique<Sushi>(
+        assets_.textures()[Assets::Element::SUSHI],
+        sf::Vector2f(assets_.desktopMode().width / 2 - 500, 1200)
+    );
+
+    drawables_.push_back(sushi.get());
+    collidables_.push_back(sushi.get());
+    entities_.push_back(std::move(sushi));
+
+    auto drug = std::make_unique<Drug>(
+        assets_.textures()[Assets::Element::DRUG],
+        sf::Vector2f(assets_.desktopMode().width / 2 + 500, 1200)
+    );
+
+    drawables_.push_back(drug.get());
+    collidables_.push_back(drug.get());
+    entities_.push_back(std::move(drug));
 }
 
 auto Game::handleEvent(sf::Event const event) -> void {

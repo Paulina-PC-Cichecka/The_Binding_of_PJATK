@@ -64,3 +64,14 @@ auto Assets::loadPoop() -> void {
     storage_[Element::POOP].loadFromFile("../assets/Poop.png");
 }
 
+auto Assets::loadBoots() -> void {
+    storage_[Element::BOOTS].loadFromFile("../assets/HermesBoots.png");
+}
+
+auto Assets::loadSushi() -> void {
+    storage_[Element::SUSHI].loadFromFile("../assets/Sushi.png");
+}
+
+auto Assets::loadDrug() -> void {
+    storage_[Element::DRUG].loadFromFile("../assets/Drug.png");
+}

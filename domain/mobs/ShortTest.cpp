@@ -21,7 +21,6 @@ ShortTest::ShortTest(sf::Texture const& texture, sf::Vector2f const startingPosi
 
 auto ShortTest::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
     target.draw(shortTest_);
-
 }
 
 auto ShortTest::update(Game& game) -> void {
@@ -33,7 +32,12 @@ auto ShortTest::update(Game& game) -> void {
 }
 
 auto ShortTest::getGlobalBounds() const -> sf::FloatRect {
-    return shortTest_.getGlobalBounds();
+    auto originalBounds = shortTest_.getGlobalBounds();
+    originalBounds.left += 10;
+    originalBounds.top += 10;
+    originalBounds.width -= 20;
+    originalBounds.height -= 20;
+    return originalBounds;
 }
 
 auto ShortTest::onCollisionWith(Collidable& other) -> void {

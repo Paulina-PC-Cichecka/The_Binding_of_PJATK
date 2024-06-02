@@ -25,6 +25,8 @@ Student::Student(
 
 auto Student::getGlobalBounds() const -> sf::FloatRect {
     auto topLeft = head_.getPosition();
+    topLeft.x -= (28 / 2.0f) * scale_.x;
+    topLeft.y -= (24 / 2.0f) * scale_.y;
     return sf::FloatRect(
         topLeft.x, topLeft.y,
         head_.getGlobalBounds().width,
@@ -60,7 +62,6 @@ auto Student::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
         halfHeart.setScale(scale_);
         target.draw(halfHeart);
     }
-
 }
 
 auto Student::update(Game& game) -> void {
@@ -143,7 +144,5 @@ auto Student::becomeFAST() -> void {
     velocity_ *= 2;
 }
 
-auto Student::increaseHp() -> void {
-    currentHp_ += 2;
-}
+auto increaseHp() -> void {}
 

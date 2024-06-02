@@ -25,6 +25,7 @@ class Game {
     Assets assets_;
     bool kwiatkowskiWasSpawned_ = false;
     bool tomaszewkiWereSpawned_ = false;
+    bool smyczkiWereSpawned_ = false;
 
     sf::FloatRect movementSurface_;
 public:
@@ -72,4 +73,8 @@ public:
     auto spawnKwiatkowskiIfNecessary() -> void;
 
     auto spawnTomaszewkiIfNecessary() -> void;
+
+    auto spawnSmyczkiIfNecessary() -> void;
+
+    auto spawnShootingBush(sf::Vector2f const, sf::Vector2f const) -> void;
 };

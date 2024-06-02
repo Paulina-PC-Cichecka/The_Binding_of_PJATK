@@ -5,6 +5,7 @@
 #include "../engine/Game.hpp"
 #include "../domain/Student.hpp"
 #include "mobs/ShortTest.hpp"
+#include "mobs/Smyczek.hpp"
 #include "mobs/Tomaszew.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -42,6 +43,11 @@ auto Tear::onCollisionWith(Collidable& other) -> void {
 
     if (other.is<Tomaszew>()) {
         other.as<Tomaszew>().decreaseHp();
+        isAlive_ = false;
+    }
+
+    if (other.is<Smyczek>()) {
+        other.as<Smyczek>().decreaseHp();
         isAlive_ = false;
     }
 

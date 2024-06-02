@@ -14,7 +14,7 @@ class Student : public Collidable, public sf::Drawable {
 
     int maxHp_ = 6;
     int currentHp_ = maxHp_;
-    float velocity_ = 8.0f;
+    float velocity_ = 10.0f;
     sf::Clock shootingClock_;
     double shootingCooldown_ = 0.8;
 

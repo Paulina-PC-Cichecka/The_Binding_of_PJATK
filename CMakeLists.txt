@@ -32,6 +32,8 @@ add_executable(Game2D
         domain/mobs/Kwiatkowski.cpp
         domain/mobs/ShortTest.cpp
         domain/mobs/Tomaszew.cpp
+        domain/mobs/Smyczek.cpp
+        domain/mobs/Bush.cpp
         domain/obstacles/Poop.cpp
         domain/upgrades/Boots.cpp
         domain/upgrades/Sushi.cpp

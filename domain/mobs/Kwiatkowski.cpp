@@ -2,7 +2,6 @@
 
 #include "Kwiatkowski.hpp"
 #include "../Student.hpp"
-#include "../../cmake-build-debug/_deps/sfml-src/src/SFML/Window/Win32/CursorImpl.hpp"
 #include "../obstacles/Poop.hpp"
 #include "../../engine/Utility.hpp"
 #include "../../engine/Game.hpp"
@@ -17,9 +16,9 @@ Kwiatkowski::Kwiatkowski(sf::Texture const& body) {
 }
 
 auto Kwiatkowski::moveTowards(sf::Vector2f const destination, Game const& game) -> void {
-    auto from = kwiatkowski_.getPosition();
+    auto const from = kwiatkowski_.getPosition();
 
-    auto direction = normalized(destination - from);
+    auto const direction = normalized(destination - from);
 
     kwiatkowski_.move(direction * velocity_);
 

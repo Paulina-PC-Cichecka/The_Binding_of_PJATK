@@ -80,3 +80,11 @@ auto Assets::loadTomaszew() -> void {
     storage_[Element::TOMASZEW].loadFromFile("../assets/NibyTomaszew.png");
 }
 
+auto Assets::loadSmyczek() -> void {
+    storage_[Element::SMYCZEK].loadFromFile("../assets/NibySmyczek.png");
+}
+
+auto Assets::loadBush() -> void {
+    storage_[Element::BUSH].loadFromFile("../assets/Bush.png");
+}
+

@@ -8,7 +8,9 @@
 #include "../domain/obstacles/Poop.hpp"
 #include "../domain/Student.hpp"
 #include "../domain/Tear.hpp"
+#include "../domain/mobs/Bush.hpp"
 #include "../domain/mobs/ShortTest.hpp"
+#include "../domain/mobs/Smyczek.hpp"
 #include "../domain/mobs/Tomaszew.hpp"
 #include "../domain/upgrades/Boots.hpp"
 #include "../domain/upgrades/Drug.hpp"
@@ -28,6 +30,8 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadSushi();
     assets_.loadDrug();
     assets_.loadTomaszew();
+    assets_.loadSmyczek();
+    assets_.loadBush();
 
     auto student = std::make_unique<Student>(
         assets_.textures()[Assets::Element::STUDENT],
@@ -150,6 +154,19 @@ auto Game::spawnShootingShortTest(
     enqueuedDrawables_.push_back(shortTest.get());
     enqueuedCollidables_.push_back(shortTest.get());
     enqueuedEntities_.push_back(std::move(shortTest));
+}
+
+auto Game::spawnShootingBush(
+    sf::Vector2f const initialPosition, sf::Vector2f const direction
+) -> void {
+    auto bush = std::make_unique<Bush>(
+        assets_.textures()[Assets::Element::BUSH],
+        initialPosition, direction
+    );
+
+    enqueuedDrawables_.push_back(bush.get());
+    enqueuedCollidables_.push_back(bush.get());
+    enqueuedEntities_.push_back(std::move(bush));
 }
 
 auto Game::handleKeyReleased(sf::Event const event) -> void {
@@ -280,6 +297,23 @@ auto Game::spawnTomaszewkiIfNecessary() -> void {
             enqueuedDrawables_.push_back(tomaszew.get());
             enqueuedCollidables_.push_back(tomaszew.get());
             enqueuedEntities_.push_back(std::move(tomaszew));
+        }
+    }
+}
+
+auto Game::spawnSmyczkiIfNecessary() -> void {
+    if (not smyczkiWereSpawned_) {
+        smyczkiWereSpawned_ = true;
+        auto const smyczeksToSpawn = randomize(1, 3);
+        for (auto i = 0; i < smyczeksToSpawn; ++i) {
+            auto smyczek = std::make_unique<Smyczek>(
+                assets_.textures()[Assets::Element::SMYCZEK],
+                sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
+            );
+
+            enqueuedDrawables_.push_back(smyczek.get());
+            enqueuedCollidables_.push_back(smyczek.get());
+            enqueuedEntities_.push_back(std::move(smyczek));
         }
     }
 }

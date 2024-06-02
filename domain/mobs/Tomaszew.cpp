@@ -68,6 +68,17 @@ auto Tomaszew::update(Game& game) -> void {
 
     auto const& student = studentPtr->as<Student>();
     moveTowards(student.getPosition(), game);
+
+    if (!isAlive_) {
+        auto const allTomaszewsAreDead = std::ranges::none_of(
+            game.entities(), [](std::unique_ptr<Entity> const& entity) {
+                return entity->is<Tomaszew>() and entity->isAlive();
+            }
+        );
+        if (allTomaszewsAreDead) {
+            game.spawnSmyczkiIfNecessary();
+        }
+    }
 }
 
 auto Tomaszew::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {

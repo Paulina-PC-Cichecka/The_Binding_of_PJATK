@@ -7,10 +7,12 @@ class Tear : public Collidable, public sf::Drawable {
     sf::Sprite tear_;
     sf::Vector2f direction_;
 
+
+
     static const inline auto velocity = 15.0f;
 
 public:
-    Tear(sf::Texture const&, sf::Vector2f const, sf::Vector2f const);
+    Tear(sf::Texture const&, sf::Vector2f const, sf::Vector2f const, float const);
 
     auto draw(sf::RenderTarget&, sf::RenderStates) const -> void override;
 

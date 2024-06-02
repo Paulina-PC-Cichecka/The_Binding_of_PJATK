@@ -29,7 +29,7 @@ public:
     explicit Game(sf::RenderWindow& window);
     Game(Game const&) = delete;
 
-    auto spawnShootingTear(sf::Vector2f const, sf::Vector2f const) -> void;
+    auto spawnShootingTear(sf::Vector2f const, sf::Vector2f const, float const tearScale) -> void;
 
     auto spawnShootingShortTest(sf::Vector2f const, sf::Vector2f const) -> void;
 

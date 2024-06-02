@@ -1,5 +1,6 @@
 #include "Drug.hpp"
 
+#include "../Student.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 
 Drug::Drug(sf::Texture const& drugTexture, sf::Vector2f const initialPosition) {
@@ -21,3 +22,12 @@ auto Drug::update(Game& game) -> void {
 auto Drug::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(drug_);
 }
+
+auto Drug::onCollisionWith(Collidable& other) -> void {
+
+    if (other.is<Student>()) {
+        other.as<Student>().makeTearsBigger();
+        isAlive_ = false;
+    }
+}
+

@@ -19,6 +19,7 @@ class Student : public Collidable, public sf::Drawable {
     double shootingCooldown_ = 0.8;
 
     sf::Vector2f scale_;
+    float tearScale_ = 1;
 
     bool movingLeft  = false;
     bool movingRight = false;
@@ -54,4 +55,6 @@ public:
     auto stopMovingDown() -> void;
 
     auto decreaseHp() -> void;
+
+    auto makeTearsBigger() -> void;
 };

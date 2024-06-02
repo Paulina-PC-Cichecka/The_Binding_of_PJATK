@@ -13,4 +13,6 @@ public:
     auto getGlobalBounds() const -> sf::FloatRect override;
 
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
+
+    auto onCollisionWith(Collidable& other) -> void override;
 };

@@ -1,6 +1,6 @@
 #include "Drug.hpp"
-
 #include "../Student.hpp"
+
 #include "SFML/Graphics/RenderTarget.hpp"
 
 Drug::Drug(sf::Texture const& drugTexture, sf::Vector2f const initialPosition) {

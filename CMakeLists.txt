@@ -32,8 +32,8 @@ add_executable(Game2D
         domain/mobs/Kwiatkowski.cpp
         domain/mobs/ShortTest.cpp
         domain/obstacles/Poop.cpp
-        domain/upgrates/Boots.cpp
-        domain/upgrates/Sushi.cpp
-        domain/upgrates/Drug.cpp
+        domain/upgrades/Boots.cpp
+        domain/upgrades/Sushi.cpp
+        domain/upgrades/Drug.cpp
 )
 target_link_libraries(Game2D fmt sfml-graphics)

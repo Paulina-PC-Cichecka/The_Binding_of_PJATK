@@ -9,9 +9,9 @@
 #include "../domain/Student.hpp"
 #include "../domain/Tear.hpp"
 #include "../domain/mobs/ShortTest.hpp"
-#include "../domain/upgrates/Boots.hpp"
-#include "../domain/upgrates/Drug.hpp"
-#include "../domain/upgrates/Sushi.hpp"
+#include "../domain/upgrades/Boots.hpp"
+#include "../domain/upgrades/Drug.hpp"
+#include "../domain/upgrades/Sushi.hpp"
 
 Game::Game(sf::RenderWindow& window)
     : window_(window), movementSurface_(319.0f, 319.0f, 2241.0f, 1186.0f) {

@@ -40,11 +40,15 @@ public:
 
     auto handleKeyReleased(sf::Event const event) -> void;
 
+    void updateAllEntities();
+
     auto handleEvent(sf::Event const event) -> void;
 
     auto handleCollisions() -> void;
 
     auto addAllNewRegisteredEntities() -> void;
+
+    auto reorderDrawables() -> void;
 
     auto performUpdates() -> void;
 

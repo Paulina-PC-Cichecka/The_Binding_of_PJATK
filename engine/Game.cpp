@@ -13,6 +13,7 @@
 #include "../domain/mobs/Card.hpp"
 #include "../domain/mobs/Smyczek.hpp"
 #include "../domain/mobs/Tomaszew.hpp"
+#include "../domain/obstacles/Door.hpp"
 #include "../domain/upgrades/Boots.hpp"
 #include "../domain/upgrades/Drug.hpp"
 #include "../domain/upgrades/Sushi.hpp"
@@ -21,6 +22,7 @@
 Game::Game(sf::RenderWindow& window)
     : window_(window), movementSurface_(319.0f, 319.0f, 2241.0f, 1186.0f) {
     assets_.loadBasement();
+    assets_.loadDoor();
     assets_.loadStudent();
     assets_.loadTear();
     assets_.loadHeart();
@@ -98,6 +100,15 @@ Game::Game(sf::RenderWindow& window)
     drawables_.push_back(drug.get());
     collidables_.push_back(drug.get());
     entities_.push_back(std::move(drug));
+
+    auto door = std::make_unique<Door>(
+        assets_.textures()[Assets::Element::DOOR],
+        sf::Vector2f(assets_.desktopMode().width / 2, 262)
+    );
+
+    drawables_.push_back(door.get());
+    collidables_.push_back(door.get());
+    entities_.push_back(std::move(door));
 }
 
 auto Game::handleEvent(sf::Event const event) -> void {
@@ -211,11 +222,28 @@ auto Game::handleKeyReleased(sf::Event const event) -> void {
 
 auto Game::performUpdates() -> void {
     handleCollisions();
+
+    updateAllEntities();
+
+    addAllNewRegisteredEntities();
+
+    reorderDrawables();
+}
+
+auto Game::handleCollisions() -> void {
+    for (auto a: collidables_) {
+        for (auto b: collidables_) {
+            if (a != b and a->isCollidingWith(*b)) {
+                a->onCollisionWith(*b);
+            }
+        }
+    }
+}
+
+auto Game::updateAllEntities() -> void {
     for (auto const& entity : entities_) {
         entity->update(*this);
     }
-
-    addAllNewRegisteredEntities();
 }
 
 auto Game::addAllNewRegisteredEntities() -> void {
@@ -235,15 +263,18 @@ auto Game::addAllNewRegisteredEntities() -> void {
     enqueuedEntities_.clear();
 }
 
-
-auto Game::handleCollisions() -> void {
-    for (auto a: collidables_) {
-        for (auto b: collidables_) {
-            if (a != b and a->isCollidingWith(*b)) {
-                a->onCollisionWith(*b);
-            }
+auto Game::reorderDrawables() -> void {
+    // things that are lower should be drawn on top of things that are higher
+    std::ranges::sort(
+        drawables_, {}, [](sf::Drawable const* d) {
+            return dynamic_cast<Collidable const*>(d)->getGlobalBounds().top;
         }
-    }
+    );
+
+    // with exception for upgrades
+    std::ranges::stable_partition(drawables_, [](sf::Drawable const* d) {
+        return !dynamic_cast<Entity const*>(d)->is<Upgrade>();
+    });
 }
 
 auto Game::renderFrame() -> void {

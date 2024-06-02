@@ -25,6 +25,7 @@ auto ShortTest::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
 
 auto ShortTest::update(Game& game) -> void {
     shortTest_.move(direction_);
+    shortTest_.rotate(2);
 
     if (not game.movementSurface().contains(shortTest_.getPosition())) {
         isAlive_ = false;

@@ -10,6 +10,7 @@
 #include "../domain/Tear.hpp"
 #include "../domain/mobs/Bush.hpp"
 #include "../domain/mobs/ShortTest.hpp"
+#include "../domain/mobs/Card.hpp"
 #include "../domain/mobs/Smyczek.hpp"
 #include "../domain/mobs/Tomaszew.hpp"
 #include "../domain/upgrades/Boots.hpp"
@@ -32,6 +33,7 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadTomaszew();
     assets_.loadSmyczek();
     assets_.loadBush();
+    assets_.loadCard();
 
     auto student = std::make_unique<Student>(
         assets_.textures()[Assets::Element::STUDENT],
@@ -155,6 +157,20 @@ auto Game::spawnShootingShortTest(
     enqueuedCollidables_.push_back(shortTest.get());
     enqueuedEntities_.push_back(std::move(shortTest));
 }
+
+auto Game::spawnShootingCard(
+    sf::Vector2f const initialPosition, sf::Vector2f const direction
+) -> void {
+    auto card = std::make_unique<Card>(
+        assets_.textures()[Assets::Element::CARD],
+        initialPosition, direction
+    );
+
+    enqueuedDrawables_.push_back(card.get());
+    enqueuedCollidables_.push_back(card.get());
+    enqueuedEntities_.push_back(std::move(card));
+}
+
 
 auto Game::spawnShootingBush(
     sf::Vector2f const initialPosition, sf::Vector2f const direction

@@ -12,8 +12,10 @@ class Kwiatkowski : public Collidable, public sf::Drawable {
     float velocity_ = 4.0;
     int maxHp_ = 10;
     int currentHp_ = maxHp_;
-    sf::Clock shootingClock_;
-    double shootingCooldown_ = 1;
+    sf::Clock shootingClockForShortTest_;
+    double shootingCooldownForShortTest_ = 1;
+    sf::Clock shootingClockForCard_;
+    double shootingCooldownForCard_ = 2;
 
 public:
     Kwiatkowski(sf::Texture const&);
@@ -30,5 +32,7 @@ public:
 
     auto decreaseHp() -> void;
 
-    auto canShoot() const -> bool;
+    auto canShootShortTest() const -> bool;
+
+    auto canShootCard() const -> bool;
 };

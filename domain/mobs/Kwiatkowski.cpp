@@ -70,11 +70,24 @@ auto Kwiatkowski::update(Game& game) -> void {
 
     auto direction = normalized(student.getPosition() - getPosition());
 
-    if (canShoot()) {
-        game.spawnShootingShortTest(getPosition(), direction);
-        shootingClock_.restart();
-    }
+    // if (canShoot()) {
+    //     if (currentHp_ > maxHp_ / 2) {
+    //         game.spawnShootingShortTest(getPosition(), direction);
+    //         shootingClockForShortTest_.restart();
+    //     } else {
+    //         game.spawnShootingCard(getPosition(), direction);
+    //         shootingClockForCard_.restart();
+    //     }
+    // }
 
+    auto const attemptToShootShortTest = currentHp_ > maxHp_ / 2;
+    if (attemptToShootShortTest and canShootShortTest()) {
+        game.spawnShootingShortTest(getPosition(), direction);
+        shootingClockForShortTest_.restart();
+    } else if (!attemptToShootShortTest and canShootCard()) {
+        game.spawnShootingCard(getPosition(), direction);
+        shootingClockForCard_.restart();
+    }
 }
 
 auto Kwiatkowski::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
@@ -86,6 +99,10 @@ auto Kwiatkowski::decreaseHp() -> void {
     if (currentHp_ == 0) isAlive_ = false;
 }
 
-auto Kwiatkowski::canShoot() const -> bool {
-    return shootingClock_.getElapsedTime().asSeconds() > shootingCooldown_;
+auto Kwiatkowski::canShootShortTest() const -> bool {
+    return shootingClockForShortTest_.getElapsedTime().asSeconds() > shootingCooldownForShortTest_;
+}
+
+auto Kwiatkowski::canShootCard() const -> bool {
+    return shootingClockForCard_.getElapsedTime().asSeconds() > shootingCooldownForCard_;
 }

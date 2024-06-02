@@ -31,6 +31,7 @@ add_executable(Game2D
         domain/Tear.cpp
         domain/mobs/Kwiatkowski.cpp
         domain/mobs/ShortTest.cpp
+        domain/mobs/Card.cpp
         domain/mobs/Tomaszew.cpp
         domain/mobs/Smyczek.cpp
         domain/mobs/Bush.cpp

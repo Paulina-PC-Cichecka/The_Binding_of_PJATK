@@ -76,5 +76,7 @@ public:
 
     auto spawnSmyczkiIfNecessary() -> void;
 
+    auto spawnShootingCard(sf::Vector2f const, sf::Vector2f const) -> void;
+
     auto spawnShootingBush(sf::Vector2f const, sf::Vector2f const) -> void;
 };

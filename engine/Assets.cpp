@@ -88,3 +88,8 @@ auto Assets::loadBush() -> void {
     storage_[Element::BUSH].loadFromFile("../assets/Bush.png");
 }
 
+auto Assets::loadCard() -> void {
+    storage_[Element::CARD].loadFromFile("../assets/Drug.png");
+}
+
+

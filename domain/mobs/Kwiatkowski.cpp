@@ -90,6 +90,8 @@ auto Kwiatkowski::update(Game& game) -> void {
 
 auto Kwiatkowski::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
     target.draw(kwiatkowski_);
+    target.draw(getOutline());
+
 }
 
 auto Kwiatkowski::decreaseHp() -> void {

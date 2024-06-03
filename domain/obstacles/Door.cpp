@@ -29,7 +29,7 @@ Door::Door(sf::Texture const& doorTexture, sf::Vector2f const initialPosition) {
 }
 
 auto Door::getGlobalBounds() const -> sf::FloatRect {
-    auto defaultBounds = openDoor_.getGlobalBounds();
+    auto defaultBounds = doorFrame_.getGlobalBounds();
     defaultBounds.left += 10;
     defaultBounds.top += 5;
     defaultBounds.width -= 20;
@@ -46,6 +46,7 @@ auto Door::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void
     target.draw(doorLeftPart_);
     target.draw(doorRightPart_);
     target.draw(doorFrame_);
+    target.draw(getOutline());
 }
 
 auto Door::onCollisionWith(Collidable& other) -> void {

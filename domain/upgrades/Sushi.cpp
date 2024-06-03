@@ -13,7 +13,12 @@ Sushi::Sushi(sf::Texture const& sushiTexture, sf::Vector2f const initialPositon)
 }
 
 auto Sushi::getGlobalBounds() const -> sf::FloatRect {
-    return sushi_.getGlobalBounds();
+    auto defaultBounds = sushi_.getGlobalBounds();
+    defaultBounds.left += 10;
+    defaultBounds.top += 5;
+    defaultBounds.width -= 20;
+    defaultBounds.height -= 10;
+    return defaultBounds;
 }
 
 auto Sushi::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {

@@ -12,7 +12,12 @@ Drug::Drug(sf::Texture const& drugTexture, sf::Vector2f const initialPosition) {
 }
 
 auto Drug::getGlobalBounds() const -> sf::FloatRect {
-    return drug_.getGlobalBounds();
+    auto defaultBounds = drug_.getGlobalBounds();
+    defaultBounds.left += 10;
+    defaultBounds.top += 5;
+    defaultBounds.width -= 20;
+    defaultBounds.height -= 10;
+    return defaultBounds;
 }
 
 auto Drug::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {

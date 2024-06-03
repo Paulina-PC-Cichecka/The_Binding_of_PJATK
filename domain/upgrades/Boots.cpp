@@ -12,7 +12,12 @@ Boots::Boots(sf::Texture const& bootsTexture, sf::Vector2f const initialPosition
 }
 
 auto Boots::getGlobalBounds() const -> sf::FloatRect {
-    return boots_.getGlobalBounds();
+    auto defaultBounds = boots_.getGlobalBounds();
+    defaultBounds.left += 10;
+    defaultBounds.top += 5;
+    defaultBounds.width -= 20;
+    defaultBounds.height -= 10;
+    return defaultBounds;
 }
 
 auto Boots::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {

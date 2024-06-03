@@ -28,10 +28,10 @@ auto Card::getGlobalBounds() const -> sf::FloatRect {
     return originalBounds;
 }
 
-
-
 auto Card::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(card_);
+    target.draw(getOutline());
+
 }
 
 auto Card::moveTowards(sf::Vector2f const destination, Game const& game) -> void {

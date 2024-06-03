@@ -1,6 +1,7 @@
 #pragma once
 #include "Upgrade.hpp"
 #include "../../engine/Collidable.hpp"
+
 #include "SFML/Graphics/Sprite.hpp"
 
 class Sushi : public Upgrade {

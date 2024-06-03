@@ -24,6 +24,8 @@ ShortTest::ShortTest(sf::Texture const& texture, sf::Vector2f const startingPosi
 
 auto ShortTest::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
     target.draw(shortTest_);
+    target.draw(getOutline());
+
 }
 
 auto ShortTest::update(Game& game) -> void {

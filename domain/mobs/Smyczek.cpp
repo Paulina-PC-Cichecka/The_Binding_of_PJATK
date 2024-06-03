@@ -103,6 +103,8 @@ auto Smyczek::update(Game& game) -> void {
 
 auto Smyczek::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(smyczek_);
+    target.draw(getOutline());
+
 }
 
 auto Smyczek::canShoot() const -> bool {

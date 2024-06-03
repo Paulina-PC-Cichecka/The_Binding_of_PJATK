@@ -25,6 +25,7 @@ Tear::Tear(
 
 auto Tear::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
     target.draw(tear_);
+    target.draw(getOutline());
 }
 
 auto Tear::update(Game& game) -> void {
@@ -36,7 +37,12 @@ auto Tear::update(Game& game) -> void {
 }
 
 auto Tear::getGlobalBounds() const -> sf::FloatRect {
-    return tear_.getGlobalBounds();
+    auto defaultBounds = tear_.getGlobalBounds();
+    defaultBounds.left += 10;
+    defaultBounds.top += 5;
+    defaultBounds.width -= 20;
+    defaultBounds.height -= 10;
+    return defaultBounds;
 }
 
 auto Tear::onCollisionWith(Collidable& other) -> void {

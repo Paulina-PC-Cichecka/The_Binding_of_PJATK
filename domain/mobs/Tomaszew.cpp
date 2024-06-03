@@ -58,7 +58,12 @@ auto Tomaszew::moveTowards(sf::Vector2f const destination, Game const& game) -> 
 
 
 auto Tomaszew::getGlobalBounds() const -> sf::FloatRect {
-    return tomaszew_.getGlobalBounds();
+    auto defaultBounds = tomaszew_.getGlobalBounds();
+    defaultBounds.left += 10;
+    defaultBounds.top += 5;
+    defaultBounds.width -= 20;
+    defaultBounds.height -= 10;
+    return defaultBounds;
 }
 
 auto Tomaszew::onCollisionWith(Collidable& other) -> void {
@@ -94,6 +99,8 @@ auto Tomaszew::update(Game& game) -> void {
 
 auto Tomaszew::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(tomaszew_);
+    target.draw(getOutline());
+
 }
 
 auto Tomaszew::decreaseHp() -> void {

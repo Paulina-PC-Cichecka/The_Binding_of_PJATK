@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "fmt/xchar.h"
+#include "SFML/Graphics/RectangleShape.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 
 Poop::Poop(sf::Texture const& poopTexture, sf::Vector2f const initialPosition) {
@@ -23,7 +24,12 @@ auto Poop::setPosition(float x, float y) -> void {
 
 
 auto Poop::getGlobalBounds() const -> sf::FloatRect {
-    return poop_.getGlobalBounds();
+    auto defaultBounds = poop_.getGlobalBounds();
+    defaultBounds.left += 10;
+    defaultBounds.top += 5;
+    defaultBounds.width -= 20;
+    defaultBounds.height -= 10;
+    return defaultBounds;
 }
 
 auto Poop::update(Game&) -> void {

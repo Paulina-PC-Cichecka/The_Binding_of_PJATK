@@ -111,10 +111,10 @@ auto Smyczek::canShoot() const -> bool {
     return shootingClock_.getElapsedTime().asSeconds() > shootingCooldown_;
 }
 
-auto Smyczek::decreaseHp() -> void {
-    currentHp_ -= 1;
+auto Smyczek::decreaseHp(int const damage) -> void {
+    currentHp_ -= damage;
 
-    if (currentHp_ == 0) isAlive_ = false;
+    if (currentHp_ <= 0) isAlive_ = false;
 }
 
 auto Smyczek::serializeToString() const -> std::string {

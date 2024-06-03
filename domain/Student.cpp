@@ -103,19 +103,19 @@ auto Student::update(Game& game) -> void {
 
     if (canShoot()) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            game.spawnShootingTear(getPosition(), {1.0f, 0}, tearScale_);
+            game.spawnShootingTear(getPosition(), {1.0f, 0}, tearScale_, damage_);
             shootingClock_.restart();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            game.spawnShootingTear(getPosition(), {-1.0f, 0}, tearScale_);
+            game.spawnShootingTear(getPosition(), {-1.0f, 0}, tearScale_, damage_);
             shootingClock_.restart();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            game.spawnShootingTear(getPosition(), {0, -1.0f}, tearScale_);
+            game.spawnShootingTear(getPosition(), {0, -1.0f}, tearScale_, damage_);
             shootingClock_.restart();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-            game.spawnShootingTear(getPosition(), {0, 1.0f}, tearScale_);
+            game.spawnShootingTear(getPosition(), {0, 1.0f}, tearScale_, damage_);
             shootingClock_.restart();
         }
     }

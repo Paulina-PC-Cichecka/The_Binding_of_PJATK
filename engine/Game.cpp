@@ -173,11 +173,12 @@ auto Game::handleKeyPressed(sf::Event const event) -> void {
 }
 
 auto Game::spawnShootingTear(
-    sf::Vector2f const initialPosition, sf::Vector2f const direction, float const tearScale
+    sf::Vector2f const initialPosition, sf::Vector2f const direction, float const tearScale,
+    int const damage
 ) -> Entity* {
     auto tear = std::make_unique<Tear>(
         assets_.textures()[Assets::Element::TEAR],
-        initialPosition, direction, tearScale
+        initialPosition, direction, tearScale, damage
     );
 
     enqueuedDrawables_.push_back(tear.get());

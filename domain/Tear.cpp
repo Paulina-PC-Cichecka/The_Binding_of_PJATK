@@ -14,8 +14,9 @@
 #include <fmt/format.h>
 
 Tear::Tear(
-    sf::Texture const& texture, sf::Vector2f const startingPosition, sf::Vector2f const direction, float const scale
-) : direction_(direction * velocity), scale_(scale) {
+    sf::Texture const& texture, sf::Vector2f const startingPosition, sf::Vector2f const direction,
+    float const scale, int const damage
+) : direction_(direction * velocity), scale_(scale), damage_(damage) {
     tear_.setTexture(texture);
     tear_.setTextureRect(sf::IntRect(0, 0, 127, 125));
     tear_.setScale(sf::Vector2f(0.5, 0.5) * scale);
@@ -47,17 +48,17 @@ auto Tear::getGlobalBounds() const -> sf::FloatRect {
 
 auto Tear::onCollisionWith(Collidable& other) -> void {
     if (other.is<Kwiatkowski>()) {
-        other.as<Kwiatkowski>().decreaseHp();
+        other.as<Kwiatkowski>().decreaseHp(damage_);
         isAlive_ = false;
     }
 
     if (other.is<Tomaszew>()) {
-        other.as<Tomaszew>().decreaseHp();
+        other.as<Tomaszew>().decreaseHp(damage_);
         isAlive_ = false;
     }
 
     if (other.is<Smyczek>()) {
-        other.as<Smyczek>().decreaseHp();
+        other.as<Smyczek>().decreaseHp(damage_);
         isAlive_ = false;
     }
 

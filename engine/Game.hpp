@@ -47,7 +47,7 @@ public:
 
     auto spawnStudent() -> Entity*;
 
-    auto spawnShootingTear(sf::Vector2f const, sf::Vector2f const, float const tearScale) -> Entity*;
+    auto spawnShootingTear(sf::Vector2f const, sf::Vector2f const, float const, int const) -> Entity*;
 
     auto spawnShootingShortTest(sf::Vector2f const, sf::Vector2f const) -> Entity*;
 

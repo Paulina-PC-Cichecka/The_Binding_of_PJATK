@@ -91,12 +91,11 @@ auto Kwiatkowski::update(Game& game) -> void {
 auto Kwiatkowski::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
     target.draw(kwiatkowski_);
     target.draw(getOutline());
-
 }
 
-auto Kwiatkowski::decreaseHp() -> void {
-    currentHp_ -= 1;
-    if (currentHp_ == 0) isAlive_ = false;
+auto Kwiatkowski::decreaseHp(int const damage) -> void {
+    currentHp_ -= damage;
+    if (currentHp_ <= 0) isAlive_ = false;
 }
 
 auto Kwiatkowski::canShootShortTest() const -> bool {

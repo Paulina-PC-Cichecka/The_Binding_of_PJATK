@@ -31,7 +31,7 @@ public:
 
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 
-    auto decreaseHp() -> void;
+    auto decreaseHp(int const) -> void;
 
     auto serializeToString() const -> std::string override;
 

@@ -32,7 +32,7 @@ public:
 
     auto draw(sf::RenderTarget& target, sf::RenderStates) const -> void override;
 
-    auto decreaseHp() -> void;
+    auto decreaseHp(int const) -> void;
 
     auto canShootShortTest() const -> bool;
 

@@ -33,7 +33,7 @@ public:
 
     auto canShoot() const -> bool;
 
-    auto decreaseHp() -> void;
+    auto decreaseHp(int const) -> void;
 
     auto serializeToString() const -> std::string override;
 

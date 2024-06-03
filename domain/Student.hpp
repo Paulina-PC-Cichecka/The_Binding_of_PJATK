@@ -68,4 +68,6 @@ public:
     auto serializeToString() const -> std::string override;
 
     auto deserializeFromString(std::string const&) -> void override;
+
+    auto increaseDamage() -> void;
 };

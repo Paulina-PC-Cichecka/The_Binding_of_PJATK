@@ -86,11 +86,14 @@ auto Kwiatkowski::update(Game& game) -> void {
         game.spawnShootingCard(getPosition(), direction);
         shootingClockForCard_.restart();
     }
+
+    if (!isAlive_) {
+        game.spawnVodkaIfNecessary();
+    }
 }
 
 auto Kwiatkowski::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
     target.draw(kwiatkowski_);
-    target.draw(getOutline());
 }
 
 auto Kwiatkowski::decreaseHp(int const damage) -> void {

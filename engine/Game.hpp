@@ -23,6 +23,7 @@ class Game {
     std::vector<sf::Drawable*> enqueuedDrawables_;
 
     Assets assets_;
+    bool vodkaWasSpawned_ = false;
     bool kwiatkowskiWasSpawned_ = false;
     bool tomaszewkiWereSpawned_ = false;
     bool smyczkiWereSpawned_ = false;
@@ -38,6 +39,8 @@ public:
     auto spawnBoots() -> Entity*;
 
     auto spawnDrug() -> Entity*;
+
+    auto spawnVodka() -> Entity*;
 
     auto spawnDoor() -> Entity*;
 
@@ -88,6 +91,8 @@ public:
     auto drawables() const -> std::vector<sf::Drawable*> const& {
         return drawables_;
     }
+
+    auto spawnVodkaIfNecessary() -> void;
 
     auto spawnKwiatkowskiIfNecessary() -> void;
 

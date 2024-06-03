@@ -67,10 +67,10 @@ auto Tear::onCollisionWith(Collidable& other) -> void {
 
 auto Tear::serializeToString() const -> std::string {
     return fmt::format(
-        "Tear {} {} {} {} {}",
+        "Tear {} {} {} {} {} {}",
         tear_.getPosition().x, tear_.getPosition().y,
         direction_.x, direction_.y,
-        scale_
+        scale_, damage_
     );
 }
 
@@ -79,6 +79,6 @@ auto Tear::deserializeFromString(const std::string& str) -> void {
     auto stream = std::istringstream(withoutType);
     auto posX = float();
     auto posY = float();
-    stream >> posX >> posY >> direction_.x >> direction_.y >> scale_;
+    stream >> posX >> posY >> direction_.x >> direction_.y >> scale_ >> damage_;
     tear_.setPosition(posX, posY);
 }

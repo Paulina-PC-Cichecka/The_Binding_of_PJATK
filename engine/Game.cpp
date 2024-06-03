@@ -19,6 +19,7 @@
 #include "../domain/upgrades/Boots.hpp"
 #include "../domain/upgrades/Drug.hpp"
 #include "../domain/upgrades/Sushi.hpp"
+#include "../domain/upgrades/Vodka.hpp"
 #include "../engine/Utility.hpp"
 
 
@@ -74,6 +75,19 @@ auto Game::spawnDrug() -> Entity* {
     return entities_.back().get();
 }
 
+auto Game::spawnVodka() -> Entity* {
+    auto vodka = std::make_unique<Vodka>(
+        assets_.textures()[Assets::Element::VODKA],
+        sf::Vector2f(assets_.desktopMode().width / 2, assets_.desktopMode().height / 2)
+    );
+
+    drawables_.push_back(vodka.get());
+    collidables_.push_back(vodka.get());
+    entities_.push_back(std::move(vodka));
+
+    return entities_.back().get();
+}
+
 auto Game::spawnDoor() -> Entity* {
     auto door = std::make_unique<Door>(
         assets_.textures()[Assets::Element::DOOR],
@@ -104,6 +118,7 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadSmyczek();
     assets_.loadBush();
     assets_.loadCard();
+    assets_.loadVodka();
 
     spawnStudent();
 
@@ -129,6 +144,44 @@ auto Game::spawnStudent() -> Entity* {
     entities_.push_back(std::move(student));
 
     return entities_.back().get();
+}
+
+auto Game::spawnTomaszewka() -> Entity* {
+    auto tomaszew = std::make_unique<Tomaszew>(
+        assets_.textures()[Assets::Element::TOMASZEW],
+        sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
+    );
+
+    enqueuedDrawables_.push_back(tomaszew.get());
+    enqueuedCollidables_.push_back(tomaszew.get());
+    enqueuedEntities_.push_back(std::move(tomaszew));
+
+    return enqueuedEntities_.back().get();
+}
+
+auto Game::spawnSmyczek() -> Entity* {
+    auto smyczek = std::make_unique<Smyczek>(
+        assets_.textures()[Assets::Element::SMYCZEK],
+        sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
+    );
+
+    enqueuedDrawables_.push_back(smyczek.get());
+    enqueuedCollidables_.push_back(smyczek.get());
+    enqueuedEntities_.push_back(std::move(smyczek));
+
+    return enqueuedEntities_.back().get();
+}
+
+auto Game::spawnKwiatkowski() -> Entity* {
+    auto kwiatkowski = std::make_unique<Kwiatkowski>(
+        assets_.textures()[Assets::Element::KWIATKOWSKI]
+    );
+
+    enqueuedDrawables_.push_back(kwiatkowski.get());
+    enqueuedCollidables_.push_back(kwiatkowski.get());
+    enqueuedEntities_.push_back(std::move(kwiatkowski));
+
+    return enqueuedEntities_.back().get();
 }
 
 auto Game::handleEvent(sf::Event const event) -> void {
@@ -355,6 +408,21 @@ auto Game::removeAllDeadElements() -> void { {
     }
 }
 
+auto Game::spawnVodkaIfNecessary() -> void {
+    if (not vodkaWasSpawned_) {
+        vodkaWasSpawned_ = true;
+        auto vodka = std::make_unique<Vodka>(
+            assets_.textures()[Assets::Element::VODKA],
+            sf::Vector2f(assets_.desktopMode().width / 2, assets_.desktopMode().height / 2)
+        );
+
+        enqueuedDrawables_.push_back(vodka.get());
+        enqueuedCollidables_.push_back(vodka.get());
+        enqueuedEntities_.push_back(std::move(vodka));
+    }
+}
+
+
 auto Game::spawnKwiatkowskiIfNecessary() -> void {
     if (not kwiatkowskiWasSpawned_) {
         kwiatkowskiWasSpawned_ = true;
@@ -371,7 +439,6 @@ auto Game::spawnKwiatkowskiIfNecessary() -> void {
 
 auto Game::spawnTomaszewkiIfNecessary() -> void {
     if (not tomaszewkiWereSpawned_) {
-        fmt::println("spawning tomaszewskis");
         tomaszewkiWereSpawned_ = true;
         auto const tomaszewsToSpawn = randomize(4, 8);
         for (auto i = 0; i < tomaszewsToSpawn; ++i) {
@@ -434,7 +501,7 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
     auto createdEntity = static_cast<Entity*>(nullptr);
 
     if (type == "Tear") {
-        createdEntity = spawnShootingTear({}, {}, 0.0f);
+        createdEntity = spawnShootingTear({}, {}, 0.0f, 0);
     } else if (type == "Student") {
         createdEntity = spawnStudent();
     } else if (type == "Sushi") {
@@ -446,7 +513,7 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
     } else if (type == "Boots") {
         tomaszewkiWereSpawned_ = false;
         createdEntity = spawnBoots();
-    } else if (type == "Poop") {
+    }  else if (type == "Poop") {
         createdEntity = spawnPoop({});
     } else if (type == "Door") {
         createdEntity = spawnDoor();
@@ -458,6 +525,8 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
         createdEntity = spawnSmyczek();
     } else if (type == "Kwiatkowski") {
         createdEntity = spawnKwiatkowski();
+    } else if (type == "Vodka") {
+        createdEntity = spawnVodka();
     } else if (type == "Bush") {
         createdEntity = spawnShootingBush({}, {});
     } else if (type == "Card") {
@@ -471,42 +540,4 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
     }
 
     createdEntity->deserializeFromString(line);
-}
-
-auto Game::spawnTomaszewka() -> Entity* {
-    auto tomaszew = std::make_unique<Tomaszew>(
-        assets_.textures()[Assets::Element::TOMASZEW],
-        sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
-    );
-
-    enqueuedDrawables_.push_back(tomaszew.get());
-    enqueuedCollidables_.push_back(tomaszew.get());
-    enqueuedEntities_.push_back(std::move(tomaszew));
-
-    return enqueuedEntities_.back().get();
-}
-
-auto Game::spawnSmyczek() -> Entity* {
-    auto smyczek = std::make_unique<Smyczek>(
-        assets_.textures()[Assets::Element::SMYCZEK],
-        sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
-    );
-
-    enqueuedDrawables_.push_back(smyczek.get());
-    enqueuedCollidables_.push_back(smyczek.get());
-    enqueuedEntities_.push_back(std::move(smyczek));
-
-    return enqueuedEntities_.back().get();
-}
-
-auto Game::spawnKwiatkowski() -> Entity* {
-    auto kwiatkowski = std::make_unique<Kwiatkowski>(
-        assets_.textures()[Assets::Element::KWIATKOWSKI]
-    );
-
-    enqueuedDrawables_.push_back(kwiatkowski.get());
-    enqueuedCollidables_.push_back(kwiatkowski.get());
-    enqueuedEntities_.push_back(std::move(kwiatkowski));
-
-    return enqueuedEntities_.back().get();
 }

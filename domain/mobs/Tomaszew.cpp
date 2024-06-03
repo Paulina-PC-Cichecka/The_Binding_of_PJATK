@@ -99,8 +99,6 @@ auto Tomaszew::update(Game& game) -> void {
 
 auto Tomaszew::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(tomaszew_);
-    target.draw(getOutline());
-
 }
 
 auto Tomaszew::decreaseHp(int const damage) -> void {

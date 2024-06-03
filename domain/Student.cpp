@@ -175,3 +175,6 @@ auto Student::deserializeFromString(std::string const& str) -> void {
     setPosition(x, y);
 }
 
+auto Student::increaseDamage() -> void {
+    damage_ += 1;
+}

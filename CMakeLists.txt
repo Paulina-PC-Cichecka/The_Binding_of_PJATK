@@ -41,6 +41,6 @@ add_executable(Game2D
         domain/upgrades/Sushi.cpp
         domain/upgrades/Drug.cpp
         domain/upgrades/Upgrade.cpp
-#        domain/upgrades/Vodka.cpp
+        domain/upgrades/Vodka.cpp
 )
 target_link_libraries(Game2D fmt sfml-graphics)

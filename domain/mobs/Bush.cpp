@@ -37,8 +37,6 @@ auto Bush::update(Game& game) -> void {
 
 auto Bush::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(bush_);
-    target.draw(getOutline());
-
 }
 
 auto Bush::onCollisionWith(Collidable& other) -> void {

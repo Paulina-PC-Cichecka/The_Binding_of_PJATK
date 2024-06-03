@@ -46,7 +46,6 @@ auto Door::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void
     target.draw(doorLeftPart_);
     target.draw(doorRightPart_);
     target.draw(doorFrame_);
-    target.draw(getOutline());
 }
 
 auto Door::onCollisionWith(Collidable& other) -> void {

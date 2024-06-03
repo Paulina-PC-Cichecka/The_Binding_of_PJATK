@@ -1,9 +1,12 @@
 #include "Smyczek.hpp"
 
+#include <sstream>
+
 #include "../../engine/Utility.hpp"
 #include "../../engine/Game.hpp"
 #include "../obstacles/Poop.hpp"
 #include "../Student.hpp"
+#include "fmt/xchar.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -14,6 +17,11 @@ Smyczek::Smyczek(sf::Texture const& body, sf::Vector2f const initialPosition) {
     smyczek_.setOrigin(27 / 2.0f, 43 / 2.0f);
     smyczek_.setPosition(initialPosition);
 }
+
+auto Smyczek::getPosition() const -> sf::Vector2f {
+    return smyczek_.getPosition();
+}
+
 
 auto Smyczek::moveTowards(sf::Vector2f const destination, Game const& game) -> void {
     auto const from = smyczek_.getPosition();
@@ -61,6 +69,11 @@ auto Smyczek::getPosition() -> sf::Vector2f {
     return smyczek_.getPosition();
 }
 
+auto Smyczek::setPosition(float x, float y) -> void {
+    smyczek_.setPosition(x, y);
+}
+
+
 auto Smyczek::update(Game& game) -> void {
     auto const& studentPtr = *std::ranges::find_if(game.entities(), [](std::unique_ptr<Entity> const& ptr) {
             return ptr->is<Student>();
@@ -101,3 +114,17 @@ auto Smyczek::decreaseHp() -> void {
 
     if (currentHp_ == 0) isAlive_ = false;
 }
+
+auto Smyczek::serializeToString() const -> std::string {
+    return fmt::format("Smyczek {} {} {}", getPosition().x, getPosition().y, currentHp_);
+}
+
+auto Smyczek::deserializeFromString(const std::string& str) -> void {
+    auto const withoutType = str.substr(8);
+    auto stream = std::istringstream(withoutType);
+    auto x = float();
+    auto y = float();
+    stream >> x >> y >> currentHp_;
+    setPosition(x, y);
+}
+

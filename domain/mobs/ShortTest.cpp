@@ -1,11 +1,14 @@
 #include "ShortTest.hpp"
 
+#include <sstream>
+
 #include "Kwiatkowski.hpp"
 #include "../obstacles/Poop.hpp"
 #include "../Student.hpp"
 #include "../Tear.hpp"
 #include "../../engine/Game.hpp"
 #include "../../engine/Utility.hpp"
+#include "fmt/xchar.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 
 
@@ -48,4 +51,21 @@ auto ShortTest::onCollisionWith(Collidable& other) -> void {
     }
 
     if (other.is<Poop>()) isAlive_ = false;
+}
+
+auto ShortTest::serializeToString() const -> std::string {
+    return fmt::format("ShortTest {} {} {} {}", getPosition().x, getPosition().y, direction_.x, direction_.y);
+}
+
+auto ShortTest::deserializeFromString(const std::string& str) -> void {
+    auto const withoutType = str.substr(10);
+    auto stream = std::istringstream(withoutType);
+    auto x = float();
+    auto y = float();
+    stream >> x >> y >> direction_.x >> direction_.y;
+    shortTest_.setPosition(x, y);
+}
+
+auto ShortTest::getPosition() const -> sf::Vector2f {
+    return shortTest_.getPosition();
 }

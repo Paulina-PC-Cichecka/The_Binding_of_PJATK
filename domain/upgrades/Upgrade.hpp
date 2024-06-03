@@ -6,6 +6,4 @@ class Upgrade : public Collidable, public sf::Drawable {
 
 public:
     auto update(Game&) -> void override;
-
-     ~Upgrade() override = 0;
 };

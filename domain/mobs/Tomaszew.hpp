@@ -17,6 +17,10 @@ class Tomaszew : public Collidable, public sf::Drawable {
 public:
     Tomaszew(sf::Texture const&, sf::Vector2f const);
 
+    auto getPosition() const -> sf::Vector2f;
+
+    auto setPosition(float, float) -> void;
+
     auto moveTowards(sf::Vector2f const, Game const&) -> void;
 
     auto getGlobalBounds() const -> sf::FloatRect override;
@@ -29,4 +33,7 @@ public:
 
     auto decreaseHp() -> void;
 
+    auto serializeToString() const -> std::string override;
+
+    auto deserializeFromString(const std::string&) -> void override;
 };

@@ -22,4 +22,10 @@ public:
     auto moveTowards(sf::Vector2f const, Game const&) -> void;
 
     auto onCollisionWith(Collidable& other) -> void override;
+
+    auto serializeToString() const -> std::string override;
+
+    auto deserializeFromString(const std::string&) -> void override;
+
+    auto getPosition() const -> sf::Vector2f;
 };

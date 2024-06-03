@@ -1,8 +1,11 @@
 #include "Tomaszew.hpp"
 
+#include <sstream>
+
 #include "../Student.hpp"
 #include "../../engine/Utility.hpp"
 #include "../obstacles/Poop.hpp"
+#include "fmt/xchar.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -11,6 +14,14 @@ Tomaszew::Tomaszew(sf::Texture const& body, sf::Vector2f const initialPosition) 
     tomaszew_.setTextureRect(sf::IntRect(2, 5, 27, 24));
     tomaszew_.setScale(5, 5);
     tomaszew_.setPosition(initialPosition);
+}
+
+auto Tomaszew::getPosition() const -> sf::Vector2f {
+    return tomaszew_.getPosition();
+}
+
+auto Tomaszew::setPosition(float x, float y) -> void {
+    tomaszew_.setPosition(x, y);
 }
 
 auto Tomaszew::moveTowards(sf::Vector2f const destination, Game const& game) -> void {
@@ -89,3 +100,17 @@ auto Tomaszew::decreaseHp() -> void {
     currentHp_ -= 1;
     if (currentHp_ == 0) isAlive_ = false;
 }
+
+auto Tomaszew::serializeToString() const -> std::string {
+    return fmt::format("Tomaszewka {} {} {}", getPosition().x, getPosition().y, currentHp_);
+}
+
+auto Tomaszew::deserializeFromString(const std::string& str) -> void {
+    auto const withoutType = str.substr(11);
+    auto stream = std::istringstream(withoutType);
+    auto x = float();
+    auto y = float();
+    stream >> x >> y >> currentHp_;
+    setPosition(x, y);
+}
+

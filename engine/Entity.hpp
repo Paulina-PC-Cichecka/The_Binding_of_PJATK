@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Serializable.hpp"
+
 class Game;
 
-class Entity {
+class Entity : public Serializable {
     int id_;
 
     static inline auto currentId = 0;

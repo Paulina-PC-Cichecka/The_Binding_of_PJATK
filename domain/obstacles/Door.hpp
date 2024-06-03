@@ -21,4 +21,8 @@ public:
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 
     auto onCollisionWith(Collidable& other) -> void override;
+
+    auto serializeToString() const -> std::string override;
+
+    auto deserializeFromString(const std::string&) -> void override;
 };

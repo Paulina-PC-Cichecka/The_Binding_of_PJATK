@@ -1,6 +1,9 @@
 #include <algorithm>
 
 #include "Kwiatkowski.hpp"
+
+#include <sstream>
+
 #include "../Student.hpp"
 #include "../obstacles/Poop.hpp"
 #include "../../engine/Utility.hpp"
@@ -56,9 +59,14 @@ auto Kwiatkowski::getGlobalBounds() const -> sf::FloatRect {
     return defaultBounds;
 }
 
-auto Kwiatkowski::getPosition() -> sf::Vector2f {
+auto Kwiatkowski::getPosition() const -> sf::Vector2f {
     return kwiatkowski_.getPosition();
 }
+
+auto Kwiatkowski::setPosition(float x, float y) -> void {
+    kwiatkowski_.setPosition(x, y);
+}
+
 
 auto Kwiatkowski::update(Game& game) -> void {
     auto const& studentPtr = *std::ranges::find_if(game.entities(), [](std::unique_ptr<Entity> const& ptr) {
@@ -106,3 +114,17 @@ auto Kwiatkowski::canShootShortTest() const -> bool {
 auto Kwiatkowski::canShootCard() const -> bool {
     return shootingClockForCard_.getElapsedTime().asSeconds() > shootingCooldownForCard_;
 }
+
+auto Kwiatkowski::serializeToString() const -> std::string {
+    return fmt::format("Kwiatkowski {} {} {}", getPosition().x, getPosition().y, currentHp_);
+}
+
+auto Kwiatkowski::deserializeFromString(const std::string& str) -> void {
+    auto const withoutType = str.substr(12);
+    auto stream = std::istringstream(withoutType);
+    float x = 0;
+    float y = 0;
+    stream >> x >> y >> currentHp_;
+    setPosition(x, y);
+}
+

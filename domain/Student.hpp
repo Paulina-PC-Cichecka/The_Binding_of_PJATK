@@ -32,6 +32,8 @@ public:
 
     auto getPosition() const -> sf::Vector2f;
 
+    auto setPosition(float, float) -> void;
+
     auto draw(sf::RenderTarget&, sf::RenderStates) const -> void override;
 
     auto update(Game&) -> void override;
@@ -61,4 +63,8 @@ public:
     auto becomeFAST() -> void;
 
     auto increaseHp() -> void;
+
+    auto serializeToString() const -> std::string override;
+
+    auto deserializeFromString(std::string const&) -> void override;
 };

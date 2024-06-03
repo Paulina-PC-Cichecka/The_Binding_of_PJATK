@@ -1,5 +1,6 @@
 #include "Sushi.hpp"
 #include "../Student.hpp"
+#include "fmt/args.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -25,3 +26,12 @@ auto Sushi::onCollisionWith(Collidable& other) -> void {
         isAlive_ = false;
     }
 }
+
+auto Sushi::serializeToString() const -> std::string {
+    return "Sushi";
+}
+
+auto Sushi::deserializeFromString(const std::string&) -> void {
+
+}
+

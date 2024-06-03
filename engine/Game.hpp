@@ -28,13 +28,28 @@ class Game {
     bool smyczkiWereSpawned_ = false;
 
     sf::FloatRect movementSurface_;
+
+    std::string defaultSaveFilePath_ = "default.save";
 public:
+    auto spawnSushi() -> Entity*;
+
+    auto spawnPoop(sf::Vector2f const) -> Entity*;
+
+    auto spawnBoots() -> Entity*;
+
+    auto spawnDrug() -> Entity*;
+
+    auto spawnDoor() -> Entity*;
+
     explicit Game(sf::RenderWindow& window);
+
     Game(Game const&) = delete;
 
-    auto spawnShootingTear(sf::Vector2f const, sf::Vector2f const, float const tearScale) -> void;
+    auto spawnStudent() -> Entity*;
 
-    auto spawnShootingShortTest(sf::Vector2f const, sf::Vector2f const) -> void;
+    auto spawnShootingTear(sf::Vector2f const, sf::Vector2f const, float const tearScale) -> Entity*;
+
+    auto spawnShootingShortTest(sf::Vector2f const, sf::Vector2f const) -> Entity*;
 
     auto handleKeyPressed(sf::Event const event) -> void;
 
@@ -80,7 +95,21 @@ public:
 
     auto spawnSmyczkiIfNecessary() -> void;
 
-    auto spawnShootingCard(sf::Vector2f const, sf::Vector2f const) -> void;
+    auto spawnShootingCard(sf::Vector2f const, sf::Vector2f const) -> Entity*;
 
-    auto spawnShootingBush(sf::Vector2f const, sf::Vector2f const) -> void;
+    auto spawnShootingBush(sf::Vector2f const, sf::Vector2f const) -> Entity*;
+
+    auto saveAllEntitiesToFile(std::string const&) const -> void;
+
+    auto loadAllEntitiesFromFile(std::string const&) -> void;
+
+    auto createEntityUsingSerialization(const std::string&) -> void;
+
+private:
+    // used for loading (in the future maybe used for delegation) - nothing else should call these unconditionally
+    auto spawnTomaszewka() -> Entity*;
+
+    auto spawnSmyczek() -> Entity*;
+
+    auto spawnKwiatkowski() -> Entity*;
 };

@@ -1,7 +1,10 @@
 #include "Bush.hpp"
 
+#include <sstream>
+
 #include "../Student.hpp"
 #include "../obstacles/Poop.hpp"
+#include "fmt/xchar.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -43,4 +46,21 @@ auto Bush::onCollisionWith(Collidable& other) -> void {
     }
 
     if (other.is<Poop>()) isAlive_ = false;
+}
+
+auto Bush::serializeToString() const -> std::string {
+    return fmt::format("Bush {} {} {} {}", getPosition().x, getPosition().y, direction_.x, direction_.y);
+}
+
+auto Bush::deserializeFromString(const std::string& str) -> void {
+    auto const withoutType = str.substr(5);
+    auto stream = std::istringstream(withoutType);
+    auto x = float();
+    auto y = float();
+    stream >> x >> y >> direction_.x >> direction_.y;
+    bush_.setPosition(x, y);
+}
+
+auto Bush::getPosition() const -> sf::Vector2f {
+    return bush_.getPosition();
 }

@@ -19,6 +19,10 @@ public:
 
     auto moveTowards(sf::Vector2f const, Game const& game) -> void;
 
+    auto getPosition() const -> sf::Vector2f;
+
+    auto setPosition(float, float) -> void;
+
     auto getGlobalBounds() const -> sf::FloatRect override;
 
     auto getPosition() -> sf::Vector2f;
@@ -30,4 +34,8 @@ public:
     auto canShoot() const -> bool;
 
     auto decreaseHp() -> void;
+
+    auto serializeToString() const -> std::string override;
+
+    auto deserializeFromString(const std::string&) -> void override;
 };

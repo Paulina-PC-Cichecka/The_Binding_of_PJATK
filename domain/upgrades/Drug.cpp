@@ -26,3 +26,12 @@ auto Drug::onCollisionWith(Collidable& other) -> void {
         isAlive_ = false;
     }
 }
+
+auto Drug::serializeToString() const -> std::string {
+    return "Drug";
+}
+
+auto Drug::deserializeFromString(const std::string&) -> void {
+
+}
+

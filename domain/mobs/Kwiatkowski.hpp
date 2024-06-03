@@ -24,7 +24,9 @@ public:
 
     auto getGlobalBounds() const -> sf::FloatRect override;
 
-    auto getPosition() -> sf::Vector2f;
+    auto getPosition() const -> sf::Vector2f;
+
+    auto setPosition(float, float ) -> void;
 
     auto update(Game&) -> void override;
 
@@ -35,4 +37,8 @@ public:
     auto canShootShortTest() const -> bool;
 
     auto canShootCard() const -> bool;
+
+    auto serializeToString() const -> std::string override;
+
+    auto deserializeFromString(const std::string&) -> void override;
 };

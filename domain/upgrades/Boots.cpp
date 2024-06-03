@@ -25,3 +25,12 @@ auto Boots::onCollisionWith(Collidable& other) -> void {
         isAlive_ = false;
     }
 }
+
+auto Boots::serializeToString() const -> std::string {
+    return "Boots";
+}
+
+auto Boots::deserializeFromString(const std::string&) -> void {
+
+}
+

@@ -1,3 +1,7 @@
 Drzwi to Collidable i kolizja z nimi pozwala nam przejść do innego pokoju
 
-Przed rysowaniem można sortować Drawables po Y rosnąco
+Serializację robimy tak:
+- wszystkie nieabstracyjne klasy implementują serialize... i deserialize...
+- zakładamy, że serialize... wpierw zapisuje nazwę klasy (żeby było łatwiej potem deserializować)
+- Game powinno mieć serializeAll() i deserializeAll()
+- czy możemy zapisywać tylko rzeczy typu currentHp, pozycje, itp.? Tj. czy możemy olać tekstury i sprite'y, bo przecież one są domyślnie tworzone

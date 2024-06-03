@@ -1,9 +1,12 @@
 #include "Card.hpp"
 
+#include <sstream>
+
 #include "../../engine/Game.hpp"
 #include "../Student.hpp"
 #include "../obstacles/Poop.hpp"
 #include "../../engine/Utility.hpp"
+#include "fmt/xchar.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -84,4 +87,21 @@ auto Card::onCollisionWith(Collidable& other) -> void {
     }
 
     if (other.is<Poop>()) isAlive_ = false;
+}
+
+auto Card::serializeToString() const -> std::string {
+    return fmt::format("Card {} {} {} {}", getPosition().x, getPosition().y, direction_.x, direction_.y);
+}
+
+auto Card::deserializeFromString(const std::string& str) -> void {
+    auto const withoutType = str.substr(5);
+    auto stream = std::istringstream(withoutType);
+    auto x = float();
+    auto y = float();
+    stream >> x >> y >> direction_.x >> direction_.y;
+    card_.setPosition(x, y);
+}
+
+auto Card::getPosition() const -> sf::Vector2f {
+    return card_.getPosition();
 }

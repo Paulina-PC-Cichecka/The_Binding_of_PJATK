@@ -1,6 +1,8 @@
-#include <stdexcept>
+#include <fstream>
 #include <memory>
 #include <utility>
+
+#include <fmt/ostream.h>
 
 #include "Game.hpp"
 
@@ -18,6 +20,72 @@
 #include "../domain/upgrades/Drug.hpp"
 #include "../domain/upgrades/Sushi.hpp"
 #include "../engine/Utility.hpp"
+
+
+auto Game::spawnSushi() -> Entity* {
+    auto sushi = std::make_unique<Sushi>(
+        assets_.textures()[Assets::Element::SUSHI],
+        sf::Vector2f(assets_.desktopMode().width / 2 - 500, 1200)
+    );
+
+    drawables_.push_back(sushi.get());
+    collidables_.push_back(sushi.get());
+    entities_.push_back(std::move(sushi));
+
+    return entities_.back().get();
+}
+
+auto Game::spawnPoop(sf::Vector2f const initialPosition) -> Entity* {
+    auto poop1 = std::make_unique<Poop>(
+        assets_.textures()[Assets::Element::POOP],
+        initialPosition
+    );
+
+    drawables_.push_back(poop1.get());
+    collidables_.push_back(poop1.get());
+    entities_.push_back(std::move(poop1));
+
+    return entities_.back().get();
+}
+
+auto Game::spawnBoots() -> Entity* {
+    auto boots = std::make_unique<Boots>(
+        assets_.textures()[Assets::Element::BOOTS],
+        sf::Vector2f(assets_.desktopMode().width / 2 + 5, 1200)
+    );
+
+    drawables_.push_back(boots.get());
+    collidables_.push_back(boots.get());
+    entities_.push_back(std::move(boots));
+
+    return entities_.back().get();
+}
+
+auto Game::spawnDrug() -> Entity* {
+    auto drug = std::make_unique<Drug>(
+        assets_.textures()[Assets::Element::DRUG],
+        sf::Vector2f(assets_.desktopMode().width / 2 + 500, 1200)
+    );
+
+    drawables_.push_back(drug.get());
+    collidables_.push_back(drug.get());
+    entities_.push_back(std::move(drug));
+
+    return entities_.back().get();
+}
+
+auto Game::spawnDoor() -> Entity* {
+    auto door = std::make_unique<Door>(
+        assets_.textures()[Assets::Element::DOOR],
+        sf::Vector2f(assets_.desktopMode().width / 2, 262)
+    );
+
+    drawables_.push_back(door.get());
+    collidables_.push_back(door.get());
+    entities_.push_back(std::move(door));
+
+    return entities_.back().get();
+}
 
 Game::Game(sf::RenderWindow& window)
     : window_(window), movementSurface_(319.0f, 319.0f, 2241.0f, 1186.0f) {
@@ -37,6 +105,19 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadBush();
     assets_.loadCard();
 
+    spawnStudent();
+
+    spawnPoop(sf::Vector2f(assets_.desktopMode().width / 2, 1280));
+    spawnPoop(sf::Vector2f(assets_.desktopMode().width / 2 - 500, 1280));
+    spawnPoop(sf::Vector2f(assets_.desktopMode().width / 2 + 500, 1280));
+
+    spawnBoots();
+    spawnSushi();
+    spawnDrug();
+    spawnDoor();
+}
+
+auto Game::spawnStudent() -> Entity* {
     auto student = std::make_unique<Student>(
         assets_.textures()[Assets::Element::STUDENT],
         assets_.textures()[Assets::Element::HEART],
@@ -47,68 +128,7 @@ Game::Game(sf::RenderWindow& window)
     collidables_.push_back(student.get());
     entities_.push_back(std::move(student));
 
-    auto poop1 = std::make_unique<Poop>(
-        assets_.textures()[Assets::Element::POOP],
-        sf::Vector2f(assets_.desktopMode().width / 2, 1280)
-    );
-
-    drawables_.push_back(poop1.get());
-    collidables_.push_back(poop1.get());
-    entities_.push_back(std::move(poop1));
-
-    auto poop2 = std::make_unique<Poop>(
-        assets_.textures()[Assets::Element::POOP],
-        sf::Vector2f(assets_.desktopMode().width / 2 - 500, 1280)
-    );
-
-    drawables_.push_back(poop2.get());
-    collidables_.push_back(poop2.get());
-    entities_.push_back(std::move(poop2));
-
-    auto poop3 = std::make_unique<Poop>(
-        assets_.textures()[Assets::Element::POOP],
-        sf::Vector2f(assets_.desktopMode().width / 2 + 500, 1280)
-    );
-
-    drawables_.push_back(poop3.get());
-    collidables_.push_back(poop3.get());
-    entities_.push_back(std::move(poop3));
-
-    auto boots = std::make_unique<Boots>(
-        assets_.textures()[Assets::Element::BOOTS],
-        sf::Vector2f(assets_.desktopMode().width / 2 + 5, 1200)
-    );
-
-    drawables_.push_back(boots.get());
-    collidables_.push_back(boots.get());
-    entities_.push_back(std::move(boots));
-
-    auto sushi = std::make_unique<Sushi>(
-        assets_.textures()[Assets::Element::SUSHI],
-        sf::Vector2f(assets_.desktopMode().width / 2 - 500, 1200)
-    );
-
-    drawables_.push_back(sushi.get());
-    collidables_.push_back(sushi.get());
-    entities_.push_back(std::move(sushi));
-
-    auto drug = std::make_unique<Drug>(
-        assets_.textures()[Assets::Element::DRUG],
-        sf::Vector2f(assets_.desktopMode().width / 2 + 500, 1200)
-    );
-
-    drawables_.push_back(drug.get());
-    collidables_.push_back(drug.get());
-    entities_.push_back(std::move(drug));
-
-    auto door = std::make_unique<Door>(
-        assets_.textures()[Assets::Element::DOOR],
-        sf::Vector2f(assets_.desktopMode().width / 2, 262)
-    );
-
-    drawables_.push_back(door.get());
-    collidables_.push_back(door.get());
-    entities_.push_back(std::move(door));
+    return entities_.back().get();
 }
 
 auto Game::handleEvent(sf::Event const event) -> void {
@@ -137,15 +157,24 @@ auto Game::handleKeyPressed(sf::Event const event) -> void {
             break;
         case sf::Keyboard::W: student.startMovingUp();
             break;
-        case sf::Keyboard::S: student.startMovingDown();
+        case sf::Keyboard::S:
+            if (event.key.control) {
+                saveAllEntitiesToFile(defaultSaveFilePath_);
+            } else {
+                student.startMovingDown();
+            }
             break;
+        case sf::Keyboard::L:
+            if (event.key.control) {
+                loadAllEntitiesFromFile(defaultSaveFilePath_);
+            }
         default: ;
     }
 }
 
 auto Game::spawnShootingTear(
     sf::Vector2f const initialPosition, sf::Vector2f const direction, float const tearScale
-) -> void {
+) -> Entity* {
     auto tear = std::make_unique<Tear>(
         assets_.textures()[Assets::Element::TEAR],
         initialPosition, direction, tearScale
@@ -154,11 +183,13 @@ auto Game::spawnShootingTear(
     enqueuedDrawables_.push_back(tear.get());
     enqueuedCollidables_.push_back(tear.get());
     enqueuedEntities_.push_back(std::move(tear));
+
+    return enqueuedEntities_.back().get();
 }
 
 auto Game::spawnShootingShortTest(
     sf::Vector2f const initialPosition, sf::Vector2f const direction
-) -> void {
+) -> Entity* {
     auto shortTest = std::make_unique<ShortTest>(
         assets_.textures()[Assets::Element::SHORTTEST],
         initialPosition, direction
@@ -167,11 +198,13 @@ auto Game::spawnShootingShortTest(
     enqueuedDrawables_.push_back(shortTest.get());
     enqueuedCollidables_.push_back(shortTest.get());
     enqueuedEntities_.push_back(std::move(shortTest));
+
+    return enqueuedEntities_.back().get();
 }
 
 auto Game::spawnShootingCard(
     sf::Vector2f const initialPosition, sf::Vector2f const direction
-) -> void {
+) -> Entity* {
     auto card = std::make_unique<Card>(
         assets_.textures()[Assets::Element::CARD],
         initialPosition, direction
@@ -180,12 +213,14 @@ auto Game::spawnShootingCard(
     enqueuedDrawables_.push_back(card.get());
     enqueuedCollidables_.push_back(card.get());
     enqueuedEntities_.push_back(std::move(card));
+
+    return enqueuedEntities_.back().get();
 }
 
 
 auto Game::spawnShootingBush(
     sf::Vector2f const initialPosition, sf::Vector2f const direction
-) -> void {
+) -> Entity* {
     auto bush = std::make_unique<Bush>(
         assets_.textures()[Assets::Element::BUSH],
         initialPosition, direction
@@ -194,6 +229,8 @@ auto Game::spawnShootingBush(
     enqueuedDrawables_.push_back(bush.get());
     enqueuedCollidables_.push_back(bush.get());
     enqueuedEntities_.push_back(std::move(bush));
+
+    return enqueuedEntities_.back().get();
 }
 
 auto Game::handleKeyReleased(sf::Event const event) -> void {
@@ -330,9 +367,10 @@ auto Game::spawnKwiatkowskiIfNecessary() -> void {
     }
 }
 
-// 319.0f, 319.0f, 2241.0f, 1186.0f
+
 auto Game::spawnTomaszewkiIfNecessary() -> void {
     if (not tomaszewkiWereSpawned_) {
+        fmt::println("spawning tomaszewskis");
         tomaszewkiWereSpawned_ = true;
         auto const tomaszewsToSpawn = randomize(4, 8);
         for (auto i = 0; i < tomaszewsToSpawn; ++i) {
@@ -363,4 +401,112 @@ auto Game::spawnSmyczkiIfNecessary() -> void {
             enqueuedEntities_.push_back(std::move(smyczek));
         }
     }
+}
+
+auto Game::saveAllEntitiesToFile(std::string const& path) const -> void {
+    auto saveFile = std::ofstream(path, std::ios::trunc);
+    for (auto const& entity : entities_) {
+        fmt::println(saveFile, "{}", entity->serializeToString());
+    }
+}
+
+auto Game::loadAllEntitiesFromFile(std::string const& path) -> void {
+    entities_.clear();
+    drawables_.clear();
+    collidables_.clear();
+
+    enqueuedEntities_.clear();
+    enqueuedDrawables_.clear();
+    enqueuedCollidables_.clear();
+
+    auto saveFile = std::ifstream(path);
+
+    for (
+        auto line = std::string();
+        std::getline(saveFile, line);
+        createEntityUsingSerialization(line)
+    );
+}
+
+auto Game::createEntityUsingSerialization(const std::string& line) -> void {
+    auto const type = line.substr(0, line.find(' '));
+    auto createdEntity = static_cast<Entity*>(nullptr);
+
+    if (type == "Tear") {
+        createdEntity = spawnShootingTear({}, {}, 0.0f);
+    } else if (type == "Student") {
+        createdEntity = spawnStudent();
+    } else if (type == "Sushi") {
+        tomaszewkiWereSpawned_ = false;
+        createdEntity = spawnSushi();
+    } else if (type == "Drug") {
+        tomaszewkiWereSpawned_ = false;
+        createdEntity = spawnDrug();
+    } else if (type == "Boots") {
+        tomaszewkiWereSpawned_ = false;
+        createdEntity = spawnBoots();
+    } else if (type == "Poop") {
+        createdEntity = spawnPoop({});
+    } else if (type == "Door") {
+        createdEntity = spawnDoor();
+    } else if (type == "Tomaszewka") {
+        // spawnTomaszewkiIfNecessary();
+        createdEntity = spawnTomaszewka();
+    } else if (type == "Smyczek") {
+        // spawnSmyczkiIfNecessary();
+        createdEntity = spawnSmyczek();
+    } else if (type == "Kwiatkowski") {
+        // spawnKwiatkowskiIfNecessary();
+        createdEntity = spawnKwiatkowski();
+    } else if (type == "Bush") {
+        createdEntity = spawnShootingBush({}, {});
+    } else if (type == "Card") {
+        createdEntity = spawnShootingCard({}, {});
+    } else if (type == "ShortTest") {
+        createdEntity = spawnShootingShortTest({}, {});
+    }
+
+    if (!createdEntity) {
+        throw std::logic_error("piździet jakiś nieznany typior...");
+    }
+
+    createdEntity->deserializeFromString(line);
+}
+
+auto Game::spawnTomaszewka() -> Entity* {
+    auto tomaszew = std::make_unique<Tomaszew>(
+        assets_.textures()[Assets::Element::TOMASZEW],
+        sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
+    );
+
+    enqueuedDrawables_.push_back(tomaszew.get());
+    enqueuedCollidables_.push_back(tomaszew.get());
+    enqueuedEntities_.push_back(std::move(tomaszew));
+
+    return enqueuedEntities_.back().get();
+}
+
+auto Game::spawnSmyczek() -> Entity* {
+    auto smyczek = std::make_unique<Smyczek>(
+        assets_.textures()[Assets::Element::SMYCZEK],
+        sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
+    );
+
+    enqueuedDrawables_.push_back(smyczek.get());
+    enqueuedCollidables_.push_back(smyczek.get());
+    enqueuedEntities_.push_back(std::move(smyczek));
+
+    return enqueuedEntities_.back().get();
+}
+
+auto Game::spawnKwiatkowski() -> Entity* {
+    auto kwiatkowski = std::make_unique<Kwiatkowski>(
+        assets_.textures()[Assets::Element::KWIATKOWSKI]
+    );
+
+    enqueuedDrawables_.push_back(kwiatkowski.get());
+    enqueuedCollidables_.push_back(kwiatkowski.get());
+    enqueuedEntities_.push_back(std::move(kwiatkowski));
+
+    return enqueuedEntities_.back().get();
 }

@@ -30,3 +30,12 @@ auto Door::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void
 auto Door::onCollisionWith(Collidable& other) -> void {
 
 }
+
+auto Door::serializeToString() const -> std::string {
+    return "Door";
+}
+
+auto Door::deserializeFromString(const std::string&) -> void {
+
+}
+

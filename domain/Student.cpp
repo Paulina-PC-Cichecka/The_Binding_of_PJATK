@@ -2,8 +2,12 @@
 #include <iterator>
 
 #include "Student.hpp"
+
+#include <sstream>
+
 #include "obstacles/Poop.hpp"
 #include "../engine/Utility.hpp"
+#include "fmt/format.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -37,6 +41,12 @@ auto Student::getGlobalBounds() const -> sf::FloatRect {
 auto Student::getPosition() const -> sf::Vector2f {
     return head_.getPosition();
 }
+
+auto Student::setPosition(float x, float y) -> void {
+    head_.setPosition(x, y);
+    body_.setPosition(sf::Vector2f(x, y) + sf::Vector2f(0, 14 * scale_.y));
+}
+
 
 auto Student::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
     target.draw(body_);
@@ -147,3 +157,21 @@ auto Student::becomeFAST() -> void {
 auto Student::increaseHp() -> void {
     currentHp_ += 2;
 }
+
+auto Student::serializeToString() const -> std::string {
+    return fmt::format(
+        "Student {} {} {} {} {}",
+        getPosition().x, getPosition().y,
+        currentHp_, tearScale_, velocity_
+    );
+}
+
+auto Student::deserializeFromString(std::string const& str) -> void {
+    auto const withoutType = str.substr(8);
+    auto stream = std::istringstream(withoutType);
+    auto x = float();
+    auto y = float();
+    stream >> x >> y >> currentHp_ >> tearScale_ >> velocity_;
+    setPosition(x, y);
+}
+

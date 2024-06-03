@@ -113,4 +113,3 @@ auto Tomaszew::deserializeFromString(const std::string& str) -> void {
     stream >> x >> y >> currentHp_;
     setPosition(x, y);
 }
-

@@ -6,7 +6,8 @@
 
 class Door : public Collidable, public sf::Drawable {
     sf::Sprite doorFrame_;
-    sf::Sprite door_;
+    sf::Sprite doorLeftPart_;
+    sf::Sprite doorRightPart_;
     sf::Sprite openDoor_;
 
     bool isOpen = false;

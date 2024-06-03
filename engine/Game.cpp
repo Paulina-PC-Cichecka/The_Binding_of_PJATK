@@ -450,13 +450,12 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
     } else if (type == "Door") {
         createdEntity = spawnDoor();
     } else if (type == "Tomaszewka") {
-        // spawnTomaszewkiIfNecessary();
+        smyczkiWereSpawned_ = false;
         createdEntity = spawnTomaszewka();
     } else if (type == "Smyczek") {
-        // spawnSmyczkiIfNecessary();
+        kwiatkowskiWasSpawned_ = false;
         createdEntity = spawnSmyczek();
     } else if (type == "Kwiatkowski") {
-        // spawnKwiatkowskiIfNecessary();
         createdEntity = spawnKwiatkowski();
     } else if (type == "Bush") {
         createdEntity = spawnShootingBush({}, {});

@@ -78,16 +78,6 @@ auto Kwiatkowski::update(Game& game) -> void {
 
     auto direction = normalized(student.getPosition() - getPosition());
 
-    // if (canShoot()) {
-    //     if (currentHp_ > maxHp_ / 2) {
-    //         game.spawnShootingShortTest(getPosition(), direction);
-    //         shootingClockForShortTest_.restart();
-    //     } else {
-    //         game.spawnShootingCard(getPosition(), direction);
-    //         shootingClockForCard_.restart();
-    //     }
-    // }
-
     auto const attemptToShootShortTest = currentHp_ > maxHp_ / 2;
     if (attemptToShootShortTest and canShootShortTest()) {
         game.spawnShootingShortTest(getPosition(), direction);

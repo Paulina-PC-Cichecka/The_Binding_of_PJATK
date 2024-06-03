@@ -23,7 +23,9 @@ auto Vodka::getGlobalBounds() const -> sf::FloatRect {
 }
 
 auto Vodka::update(Game& game) -> void {
-
+    if (!isAlive_) {
+        game.spawnChrzastowskiIfNecessary();
+    }
 }
 
 auto Vodka::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {

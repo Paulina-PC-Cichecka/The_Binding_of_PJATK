@@ -13,6 +13,7 @@
 #include "../domain/mobs/Bush.hpp"
 #include "../domain/mobs/ShortTest.hpp"
 #include "../domain/mobs/Card.hpp"
+#include "../domain/mobs/Chrzastowski.hpp"
 #include "../domain/mobs/Smyczek.hpp"
 #include "../domain/mobs/Tomaszew.hpp"
 #include "../domain/obstacles/Door.hpp"
@@ -119,6 +120,7 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadBush();
     assets_.loadCard();
     assets_.loadVodka();
+    assets_.loadChrzastowski();
 
     spawnStudent();
 
@@ -146,10 +148,10 @@ auto Game::spawnStudent() -> Entity* {
     return entities_.back().get();
 }
 
-auto Game::spawnTomaszewka() -> Entity* {
+auto Game::spawnTomaszewkaAt(float const x, float const y) -> Entity* {
     auto tomaszew = std::make_unique<Tomaszew>(
         assets_.textures()[Assets::Element::TOMASZEW],
-        sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
+        sf::Vector2f(x, y)
     );
 
     enqueuedDrawables_.push_back(tomaszew.get());
@@ -159,10 +161,10 @@ auto Game::spawnTomaszewka() -> Entity* {
     return enqueuedEntities_.back().get();
 }
 
-auto Game::spawnSmyczek() -> Entity* {
+auto Game::spawnSmyczekAt(float const x, float const y) -> Entity* {
     auto smyczek = std::make_unique<Smyczek>(
         assets_.textures()[Assets::Element::SMYCZEK],
-        sf::Vector2f(randomize(320, 2500), randomize(320, 1000))
+        sf::Vector2f(x, y)
     );
 
     enqueuedDrawables_.push_back(smyczek.get());
@@ -180,6 +182,18 @@ auto Game::spawnKwiatkowski() -> Entity* {
     enqueuedDrawables_.push_back(kwiatkowski.get());
     enqueuedCollidables_.push_back(kwiatkowski.get());
     enqueuedEntities_.push_back(std::move(kwiatkowski));
+
+    return enqueuedEntities_.back().get();
+}
+
+auto Game::spawnChrzastowski() -> Entity* {
+    auto chrzastowski = std::make_unique<Chrzastowski>(
+        assets_.textures()[Assets::Element::CHRZASTOWSKI]
+    );
+
+    enqueuedDrawables_.push_back(chrzastowski.get());
+    enqueuedCollidables_.push_back(chrzastowski.get());
+    enqueuedEntities_.push_back(std::move(chrzastowski));
 
     return enqueuedEntities_.back().get();
 }
@@ -436,6 +450,18 @@ auto Game::spawnKwiatkowskiIfNecessary() -> void {
     }
 }
 
+auto Game::spawnChrzastowskiIfNecessary() -> void {
+    if (not chrzastowskiWasSpawned_) {
+        chrzastowskiWasSpawned_ = true;
+        auto chrzastowski = std::make_unique<Chrzastowski>(
+            assets_.textures()[Assets::Element::CHRZASTOWSKI]
+        );
+
+        enqueuedDrawables_.push_back(chrzastowski.get());
+        enqueuedCollidables_.push_back(chrzastowski.get());
+        enqueuedEntities_.push_back(std::move(chrzastowski));
+    }
+}
 
 auto Game::spawnTomaszewkiIfNecessary() -> void {
     if (not tomaszewkiWereSpawned_) {
@@ -519,10 +545,10 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
         createdEntity = spawnDoor();
     } else if (type == "Tomaszewka") {
         smyczkiWereSpawned_ = false;
-        createdEntity = spawnTomaszewka();
+        createdEntity = spawnTomaszewkaAt();
     } else if (type == "Smyczek") {
         kwiatkowskiWasSpawned_ = false;
-        createdEntity = spawnSmyczek();
+        createdEntity = spawnSmyczekAt();
     } else if (type == "Kwiatkowski") {
         createdEntity = spawnKwiatkowski();
     } else if (type == "Vodka") {

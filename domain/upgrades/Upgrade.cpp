@@ -11,8 +11,6 @@ auto Upgrade::update(Game& game) -> void {
                 e->kill();
             }
         }
-
-        fmt::println("should spawn tomaszewkis");
         game.spawnTomaszewkiIfNecessary();
     }
 }

@@ -99,3 +99,8 @@ auto Assets::loadCard() -> void {
 auto Assets::loadVodka() -> void {
     storage_[Element::VODKA].loadFromFile("../assets/Vodka.png");
 }
+
+auto Assets::loadChrzastowski() -> void {
+    storage_[Element::CHRZASTOWSKI].loadFromFile("../assets/NibyChrzastowski.png");
+}
+

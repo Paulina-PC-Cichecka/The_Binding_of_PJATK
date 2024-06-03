@@ -54,6 +54,8 @@ public:
 
     auto loadVodka() -> void;
 
+    auto loadChrzastowski() -> void;
+
     auto genericMapElements() const -> std::vector<sf::Sprite> const& {
         return genericMapElements_;
     }

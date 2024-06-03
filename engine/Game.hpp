@@ -8,6 +8,7 @@
 #include "Assets.hpp"
 #include "Entity.hpp"
 #include "Collidable.hpp"
+#include "Utility.hpp"
 
 class Student;
 
@@ -25,6 +26,7 @@ class Game {
     Assets assets_;
     bool vodkaWasSpawned_ = false;
     bool kwiatkowskiWasSpawned_ = false;
+    bool chrzastowskiWasSpawned_ = false;
     bool tomaszewkiWereSpawned_ = false;
     bool smyczkiWereSpawned_ = false;
 
@@ -41,6 +43,8 @@ public:
     auto spawnDrug() -> Entity*;
 
     auto spawnVodka() -> Entity*;
+
+    auto spawnChrzastowski() -> Entity*;
 
     auto spawnDoor() -> Entity*;
 
@@ -96,6 +100,8 @@ public:
 
     auto spawnKwiatkowskiIfNecessary() -> void;
 
+    auto spawnChrzastowskiIfNecessary() -> void;
+
     auto spawnTomaszewkiIfNecessary() -> void;
 
     auto spawnSmyczkiIfNecessary() -> void;
@@ -112,9 +118,9 @@ public:
 
 private:
     // used for loading (in the future maybe used for delegation) - nothing else should call these unconditionally
-    auto spawnTomaszewka() -> Entity*;
+    auto spawnTomaszewkaAt(float const = randomize(320, 2500), float const = randomize(320, 1000)) -> Entity*;
 
-    auto spawnSmyczek() -> Entity*;
+    auto spawnSmyczekAt(float const = randomize(320, 2500), float const = randomize(320, 1000)) -> Entity*;
 
     auto spawnKwiatkowski() -> Entity*;
 };

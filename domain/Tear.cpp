@@ -13,6 +13,8 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include <fmt/format.h>
 
+#include "mobs/Chrzastowski.hpp"
+
 Tear::Tear(
     sf::Texture const& texture, sf::Vector2f const startingPosition, sf::Vector2f const direction,
     float const scale, int const damage
@@ -26,7 +28,6 @@ Tear::Tear(
 
 auto Tear::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
     target.draw(tear_);
-    target.draw(getOutline());
 }
 
 auto Tear::update(Game& game) -> void {
@@ -59,6 +60,11 @@ auto Tear::onCollisionWith(Collidable& other) -> void {
 
     if (other.is<Smyczek>()) {
         other.as<Smyczek>().decreaseHp(damage_);
+        isAlive_ = false;
+    }
+
+    if (other.is<Chrzastowski>()) {
+        other.as<Chrzastowski>().decreaseHp(damage_);
         isAlive_ = false;
     }
 

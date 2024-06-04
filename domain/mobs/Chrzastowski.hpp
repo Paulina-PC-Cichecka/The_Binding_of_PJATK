@@ -27,7 +27,9 @@ public:
 
     auto setPosition(float, float ) -> void;
 
-    auto canShootShortTest() const -> bool;
+    auto canShootPresent() const -> bool;
+
+    auto canShootExam() const -> bool;
 
     auto decreaseHp(int const) -> void;
 

@@ -9,7 +9,7 @@ class Entity : public Serializable {
 
     static inline auto currentId = 0;
 protected:
-    bool isAlive_;
+    bool isAlive_ = true;
 public:
     Entity();
 

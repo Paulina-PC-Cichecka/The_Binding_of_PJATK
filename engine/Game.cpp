@@ -15,6 +15,7 @@
 #include "../domain/mobs/ShortTest.hpp"
 #include "../domain/mobs/Card.hpp"
 #include "../domain/mobs/Chrzastowski.hpp"
+#include "../domain/mobs/Exam.hpp"
 #include "../domain/mobs/Present.hpp"
 #include "../domain/mobs/Smyczek.hpp"
 #include "../domain/mobs/Tomaszew.hpp"
@@ -136,6 +137,7 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadVodka();
     assets_.loadChrzastowski();
     assets_.loadPresent();
+    assets_.loadExam();
 
     spawnStudent();
 
@@ -316,6 +318,20 @@ auto Game::spawnShootingCard(
     return enqueuedEntities_.back().get();
 }
 
+auto Game::spawnShootingExam(
+    sf::Vector2f const initialPosition, sf::Vector2f const direction
+) -> Entity* {
+    auto exam = std::make_unique<Exam>(
+        assets_.textures()[Assets::Element::EXAM],
+        initialPosition, direction
+    );
+
+    enqueuedDrawables_.push_back(exam.get());
+    enqueuedCollidables_.push_back(exam.get());
+    enqueuedEntities_.push_back(std::move(exam));
+
+    return enqueuedEntities_.back().get();
+}
 
 auto Game::spawnShootingBush(
     sf::Vector2f const initialPosition, sf::Vector2f const direction
@@ -613,9 +629,9 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
         createdEntity = spawnChrzastowski();
     } else if (type == "Present") {
         createdEntity = spawnShootingPresent({}, {});
+    } else if (type == "Exam") {
+        createdEntity = spawnShootingExam({}, {});
     }
-
-    //TODO po zabiciu Tomaszewów i zapisie w trakcie ich zabijania to po wczytaniu nie spawnią się Smyczki
 
     if (!createdEntity) {
         throw std::logic_error("piździet jakiś nieznany typior...");

@@ -122,3 +122,8 @@ auto Assets::loadChrzastowski() -> void {
 auto Assets::loadPresent() -> void {
     storage_[Element::PRESENT].loadFromFile("../assets/Present.png");
 }
+
+auto Assets::loadExam() -> void {
+    storage_[Element::EXAM].loadFromFile("../assets/Exam.png");
+}
+

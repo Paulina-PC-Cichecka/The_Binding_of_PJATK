@@ -11,8 +11,11 @@
 #include "fmt/xchar.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 
-ShortTest::ShortTest(sf::Texture const& texture, sf::Vector2f const startingPosition, sf::Vector2f const direction
-    ) : direction_((direction * velocity)) {
+ShortTest::ShortTest(
+    sf::Texture const& texture,
+    sf::Vector2f const startingPosition,
+    sf::Vector2f const direction
+) : direction_(direction * velocity) {
     shortTest_.setTexture(texture);
     shortTest_.setTextureRect(sf::IntRect(22, 45, 337, 269));
     shortTest_.setScale(0.3, 0.3);
@@ -48,7 +51,7 @@ auto ShortTest::getGlobalBounds() const -> sf::FloatRect {
 
 auto ShortTest::onCollisionWith(Collidable& other) -> void {
     if (other.is<Student>()) {
-        other.as<Student>().decreaseHp();
+        other.as<Student>().decreaseHp(1);
         isAlive_ = false;
     }
 

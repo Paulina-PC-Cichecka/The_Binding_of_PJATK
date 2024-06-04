@@ -114,6 +114,8 @@ public:
 
     auto spawnShootingCard(sf::Vector2f const, sf::Vector2f const) -> Entity*;
 
+    auto spawnShootingExam(sf::Vector2f const, sf::Vector2f const) -> Entity*;
+
     auto spawnShootingBush(sf::Vector2f const, sf::Vector2f const) -> Entity*;
 
     auto saveAllEntitiesToFile(std::string const&) const -> void;

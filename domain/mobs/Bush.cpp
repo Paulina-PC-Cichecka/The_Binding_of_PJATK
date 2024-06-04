@@ -28,7 +28,6 @@ auto Bush::getGlobalBounds() const -> sf::FloatRect {
 
 auto Bush::update(Game& game) -> void {
     bush_.move(direction_);
-    // bush_.rotate(1);
 
     auto const isOnValidMovementSurface = std::ranges::any_of(game.movementSurface(), [this](sf::FloatRect const rect) {
         return rect.contains(bush_.getPosition());
@@ -44,7 +43,7 @@ auto Bush::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void
 
 auto Bush::onCollisionWith(Collidable& other) -> void {
     if (other.is<Student>()) {
-        other.as<Student>().decreaseHp();
+        other.as<Student>().decreaseHp(1);
         isAlive_ = false;
     }
 

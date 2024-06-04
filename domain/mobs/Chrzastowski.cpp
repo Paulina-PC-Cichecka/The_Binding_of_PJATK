@@ -78,12 +78,13 @@ auto Chrzastowski::update(Game& game) -> void {
     auto direction = normalized(student.getPosition() - getPosition());
 
     auto const attemptToShootPresent = currentHp_ > maxHp_ / 2;
-    if (attemptToShootPresent and canShootShortTest()) {
+    if (attemptToShootPresent and canShootPresent()) {
         game.spawnShootingPresent(getPosition(), direction);
         shootingClockForPresent_.restart();
+    } else if (!attemptToShootPresent and canShootExam()) {
+        game.spawnShootingExam(getPosition(), direction);
+        shootingClockForExam_.restart();
     }
-
-    //TODO dodać strzelanie prezentami i egzaminami
 }
 
 auto Chrzastowski::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
@@ -95,13 +96,14 @@ auto Chrzastowski::decreaseHp(int const damage) -> void {
     if (currentHp_ <= 0) isAlive_ = false;
 }
 
-//TODO canShootPresent
-auto Chrzastowski::canShootShortTest() const -> bool {
+auto Chrzastowski::canShootPresent() const -> bool {
     return shootingClockForPresent_.getElapsedTime().asSeconds() > shootingCooldownForPresent_;
 }
 
+auto Chrzastowski::canShootExam() const -> bool {
+    return shootingClockForExam_.getElapsedTime().asSeconds() > shootingCooldownForExam_;
+}
 
-//TODO canShootExams
 
 auto Chrzastowski::serializeToString() const -> std::string {
     return fmt::format("Chrzastowski {} {} {}", getPosition().x, getPosition().y, currentHp_);

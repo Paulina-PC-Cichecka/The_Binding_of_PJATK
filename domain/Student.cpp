@@ -166,8 +166,8 @@ auto Student::stopMovingUp() -> void { movingUp = false; }
 
 auto Student::stopMovingDown() -> void { movingDown = false; }
 
-auto Student::decreaseHp() -> void {
-    currentHp_ -= 1;
+auto Student::decreaseHp(int const amountOfHearts) -> void {
+    currentHp_ -= amountOfHearts;
     if (currentHp_ == 0) isAlive_ = false;
 }
 

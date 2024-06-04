@@ -58,7 +58,7 @@ public:
 
     auto stopMovingDown() -> void;
 
-    auto decreaseHp() -> void;
+    auto decreaseHp(int const) -> void;
 
     auto makeTearsBigger() -> void;
 

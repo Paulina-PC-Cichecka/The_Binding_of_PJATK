@@ -83,7 +83,7 @@ auto Card::update(Game& game) -> void {
 
 auto Card::onCollisionWith(Collidable& other) -> void {
     if (other.is<Student>()) {
-        other.as<Student>().decreaseHp();
+        other.as<Student>().decreaseHp(1);
         isAlive_ = false;
     }
 

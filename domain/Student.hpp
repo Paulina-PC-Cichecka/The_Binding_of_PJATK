@@ -64,7 +64,7 @@ public:
 
     auto becomeFAST() -> void;
 
-    auto increaseHp() -> void;
+    auto increaseHp(int const) -> void;
 
     auto serializeToString() const -> std::string override;
 

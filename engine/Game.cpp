@@ -97,11 +97,6 @@ auto Game::spawnDoor() -> Entity* {
         sf::Vector2f(assets_.desktopMode().width / 2, 262)
     );
 
-    //dodane do naprawienia zapisywania, ale nie działa :<
-    if (door->isOpen()) {
-        door->open();
-    }
-
     drawables_.push_back(door.get());
     collidables_.push_back(door.get());
     entities_.push_back(std::move(door));

@@ -11,13 +11,12 @@
 #include "fmt/xchar.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 
-
 ShortTest::ShortTest(sf::Texture const& texture, sf::Vector2f const startingPosition, sf::Vector2f const direction
     ) : direction_((direction * velocity)) {
     shortTest_.setTexture(texture);
     shortTest_.setTextureRect(sf::IntRect(22, 45, 337, 269));
-    shortTest_.setScale(sf::Vector2f(0.3, 0.3));
-    shortTest_.setOrigin(sf::Vector2f(337 / 2.0f, 269 / 2.0f));
+    shortTest_.setScale(0.3, 0.3);
+    shortTest_.setOrigin(337 / 2.0f, 269 / 2.0f);
     shortTest_.setPosition(startingPosition);
 }
 

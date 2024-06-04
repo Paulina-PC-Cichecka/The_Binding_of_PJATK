@@ -27,7 +27,7 @@ auto Sushi::draw(sf::RenderTarget& target, sf::RenderStates states) const -> voi
 
 auto Sushi::onCollisionWith(Collidable& other) -> void {
     if (other.is<Student>()) {
-        other.as<Student>().increaseHp();
+        other.as<Student>().increaseHp(4);
         isAlive_ = false;
     }
 }

@@ -1,6 +1,9 @@
 #include "Door.hpp"
 
+#include <sstream>
+
 #include "../Student.hpp"
+#include "fmt/compile.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -40,7 +43,10 @@ auto Door::getGlobalBounds() const -> sf::FloatRect {
 }
 
 auto Door::update(Game& game) -> void {
-
+    //dodane, żeby naprwaić zapisywanie, ale nic nie zmieniło :<
+    // if (isOpen_ == true) {
+    //     open();
+    // }
 }
 
 auto Door::open() -> void {
@@ -63,10 +69,17 @@ auto Door::onCollisionWith(Collidable& other) -> void {
 }
 
 auto Door::serializeToString() const -> std::string {
-    return "Door";
+    return fmt::format("Door {}", isOpen_ ? 1 : 0);
+    //TODO naprawić zapisywanie otwartych drzwi
 }
 
-auto Door::deserializeFromString(const std::string&) -> void {
+auto Door::deserializeFromString(const std::string& str) -> void {
+    auto const withoutType = str.substr(5);
+    auto stream = std::istringstream(withoutType);
+    stream >> isOpen_;
 
+    if (isOpen()) {
+        open();
+    }
 }
 

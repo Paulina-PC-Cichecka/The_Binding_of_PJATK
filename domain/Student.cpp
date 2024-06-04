@@ -179,9 +179,9 @@ auto Student::becomeFAST() -> void {
     velocity_ *= 2;
 }
 
-auto Student::increaseHp() -> void {
-    currentHp_ += 2;
-    maxHp_ += 2;
+auto Student::increaseHp(int const amountOfHearts) -> void {
+    currentHp_ += amountOfHearts;
+    maxHp_ += amountOfHearts;
 }
 
 auto Student::serializeToString() const -> std::string {

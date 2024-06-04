@@ -62,6 +62,8 @@ public:
 
     auto spawnShootingShortTest(sf::Vector2f const, sf::Vector2f const) -> Entity*;
 
+    auto spawnShootingPresent(sf::Vector2f const, sf::Vector2f const) -> Entity*;
+
     auto handleKeyPressed(sf::Event const event) -> void;
 
     auto handleKeyReleased(sf::Event const event) -> void;

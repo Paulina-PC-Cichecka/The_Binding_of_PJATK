@@ -15,6 +15,7 @@
 #include "../domain/mobs/ShortTest.hpp"
 #include "../domain/mobs/Card.hpp"
 #include "../domain/mobs/Chrzastowski.hpp"
+#include "../domain/mobs/Present.hpp"
 #include "../domain/mobs/Smyczek.hpp"
 #include "../domain/mobs/Tomaszew.hpp"
 #include "../domain/obstacles/Door.hpp"
@@ -96,6 +97,11 @@ auto Game::spawnDoor() -> Entity* {
         sf::Vector2f(assets_.desktopMode().width / 2, 262)
     );
 
+    //dodane do naprawienia zapisywania, ale nie działa :<
+    if (door->isOpen()) {
+        door->open();
+    }
+
     drawables_.push_back(door.get());
     collidables_.push_back(door.get());
     entities_.push_back(std::move(door));
@@ -134,6 +140,7 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadCard();
     assets_.loadVodka();
     assets_.loadChrzastowski();
+    assets_.loadPresent();
 
     spawnStudent();
 
@@ -280,6 +287,21 @@ auto Game::spawnShootingShortTest(
     enqueuedDrawables_.push_back(shortTest.get());
     enqueuedCollidables_.push_back(shortTest.get());
     enqueuedEntities_.push_back(std::move(shortTest));
+
+    return enqueuedEntities_.back().get();
+}
+
+auto Game::spawnShootingPresent(
+    sf::Vector2f const initialPosition, sf::Vector2f const direction
+) -> Entity* {
+    auto present = std::make_unique<Present>(
+        assets_.textures()[Assets::Element::PRESENT],
+        initialPosition, direction
+    );
+
+    enqueuedDrawables_.push_back(present.get());
+    enqueuedCollidables_.push_back(present.get());
+    enqueuedEntities_.push_back(std::move(present));
 
     return enqueuedEntities_.back().get();
 }
@@ -594,7 +616,11 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
         createdEntity = spawnShootingShortTest({}, {});
     } else if (type == "Chrzastowski") {
         createdEntity = spawnChrzastowski();
+    } else if (type == "Present") {
+        createdEntity = spawnShootingPresent({}, {});
     }
+
+    //TODO po zabiciu Tomaszewów i zapisie w trakcie ich zabijania to po wczytaniu nie spawnią się Smyczki
 
     if (!createdEntity) {
         throw std::logic_error("piździet jakiś nieznany typior...");

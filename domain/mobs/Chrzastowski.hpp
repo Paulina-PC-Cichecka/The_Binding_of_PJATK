@@ -12,7 +12,7 @@ class Chrzastowski : public Collidable, public sf::Drawable {
     int maxHp_ = 20;
     int currentHp_ = maxHp_;
     sf::Clock shootingClockForPresent_;
-    double shootingCooldownForPresent_ = 2;
+    double shootingCooldownForPresent_ = 0.8;
     sf::Clock shootingClockForExam_;
     double shootingCooldownForExam_ = 1;
 
@@ -26,6 +26,8 @@ public:
     auto getPosition() const -> sf::Vector2f;
 
     auto setPosition(float, float ) -> void;
+
+    auto canShootShortTest() const -> bool;
 
     auto decreaseHp(int const) -> void;
 

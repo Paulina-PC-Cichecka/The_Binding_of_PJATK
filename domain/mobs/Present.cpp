@@ -13,7 +13,7 @@ Present::Present(sf::Texture const& presentTexture, sf::Vector2f const startingP
 ) : direction_((direction * velocity)) {
     present_.setTexture(presentTexture);
     present_.setTextureRect(sf::IntRect(573, 281, 169, 194));
-    present_.setScale(sf::Vector2f(0.3, 0.3));
+    present_.setScale(sf::Vector2f(0.5, 0.5));
     present_.setOrigin(169 / 2.0f, 194 / 2.0f);
     present_.setPosition(startingPosition);
 }
@@ -43,7 +43,6 @@ auto Present::update(Game& game) -> void {
 
 auto Present::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(present_);
-    target.draw(getOutline());
 }
 
 auto Present::onCollisionWith(Collidable& other) -> void {

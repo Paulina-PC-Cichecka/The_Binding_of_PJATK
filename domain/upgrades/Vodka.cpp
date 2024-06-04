@@ -1,6 +1,7 @@
 #include "Vodka.hpp"
 
 #include "../Student.hpp"
+#include "../obstacles/Door.hpp"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -24,7 +25,15 @@ auto Vodka::getGlobalBounds() const -> sf::FloatRect {
 
 auto Vodka::update(Game& game) -> void {
     if (!isAlive_) {
-        game.spawnChrzastowskiIfNecessary();
+        auto const& doorPtr = *std::ranges::find_if(
+                game.entities(), [](std::unique_ptr<Entity> const& ptr) {
+                    return ptr->is<Door>();
+                }
+            );
+
+        auto& door = doorPtr->as<Door>();
+
+        door.open();
     }
 }
 
@@ -34,7 +43,9 @@ auto Vodka::draw(sf::RenderTarget& target, sf::RenderStates states) const -> voi
 
 auto Vodka::onCollisionWith(Collidable& other) -> void {
     if (other.is<Student>()) {
-        other.as<Student>().increaseDamage();
+        auto& student = other.as<Student>();
+        student.increaseDamage();
+        student.fullyHeal();
         isAlive_ = false;
     }
 }

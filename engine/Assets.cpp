@@ -38,6 +38,21 @@ auto Assets::loadBasement() -> void {
     genericMapElements_.push_back(topRight);
     genericMapElements_.push_back(bottomLeft);
     genericMapElements_.push_back(bottomRight);
+
+    auto anotherRoomsTopLeft = topLeft;
+    auto anotherRoomsTopRight = topRight;
+    auto anotherRoomsBottomLeft = bottomLeft;
+    auto anotherRoomsBottomRight = bottomRight;
+
+    anotherRoomsTopLeft.move(0, -float(desktopMode_.height));
+    anotherRoomsTopRight.move(0, -float(desktopMode_.height));
+    anotherRoomsBottomLeft.move(0, -float(desktopMode_.height));
+    anotherRoomsBottomRight.move(0, -float(desktopMode_.height));
+
+    genericMapElements_.push_back(anotherRoomsTopLeft);
+    genericMapElements_.push_back(anotherRoomsTopRight);
+    genericMapElements_.push_back(anotherRoomsBottomLeft);
+    genericMapElements_.push_back(anotherRoomsBottomRight);
 }
 
 auto Assets::loadDoor() -> void {

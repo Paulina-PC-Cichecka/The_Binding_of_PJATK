@@ -30,7 +30,7 @@ class Game {
     bool tomaszewkiWereSpawned_ = false;
     bool smyczkiWereSpawned_ = false;
 
-    sf::FloatRect movementSurface_;
+    std::vector<sf::FloatRect> movementSurfaces_;
 
     std::string defaultSaveFilePath_ = "default.save";
 public:
@@ -47,6 +47,10 @@ public:
     auto spawnChrzastowski() -> Entity*;
 
     auto spawnDoor() -> Entity*;
+
+    auto window() -> sf::RenderWindow&;
+
+    auto assets() -> Assets const&;
 
     explicit Game(sf::RenderWindow& window);
 
@@ -80,8 +84,8 @@ public:
 
     auto removeAllDeadElements() -> void;
 
-    auto movementSurface() const -> sf::FloatRect {
-        return movementSurface_;
+    auto movementSurface() const -> std::vector<sf::FloatRect> const& {
+        return movementSurfaces_;
     }
 
     auto entities() const -> std::vector<std::unique_ptr<Entity>> const& {

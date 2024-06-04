@@ -21,6 +21,7 @@ class Student : public Collidable, public sf::Drawable {
 
     sf::Vector2f scale_;
     float tearScale_ = 1;
+    bool shouldTransportToAnotherRoom_ = false;
 
     bool movingLeft  = false;
     bool movingRight = false;
@@ -70,4 +71,12 @@ public:
     auto deserializeFromString(std::string const&) -> void override;
 
     auto increaseDamage() -> void;
+
+    auto onCollisionWith(Collidable& other) -> void override;
+
+    auto fullyHeal() -> void;
+
+private:
+
+    auto moveToAnotherRoom(Game&) -> void;
 };

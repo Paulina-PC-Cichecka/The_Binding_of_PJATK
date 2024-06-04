@@ -10,12 +10,12 @@
 
 #include "SFML/Window/VideoMode.hpp"
 
-Chrzastowski::Chrzastowski(sf::Texture const& body) {
+Chrzastowski::Chrzastowski(sf::Texture const& body, sf::Vector2f const initialPosition) {
     chrzastowski_.setTexture(body);
     chrzastowski_.setTextureRect(sf::IntRect(12, 123, 71, 58));
     chrzastowski_.setScale(5, 5);
     chrzastowski_.setOrigin(71 / 2.0f, 58 / 2.0f);
-    chrzastowski_.setPosition(sf::VideoMode::getDesktopMode().width / 2, 450);
+    chrzastowski_.setPosition(initialPosition);
 }
 
 auto Chrzastowski::moveTowards(sf::Vector2f const destination, Game const& game) -> void {

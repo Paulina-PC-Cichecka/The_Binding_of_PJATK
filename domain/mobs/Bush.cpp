@@ -30,7 +30,10 @@ auto Bush::update(Game& game) -> void {
     bush_.move(direction_);
     // bush_.rotate(1);
 
-    if (not game.movementSurface().contains(bush_.getPosition())) {
+    auto const isOnValidMovementSurface = std::ranges::any_of(game.movementSurface(), [this](sf::FloatRect const rect) {
+        return rect.contains(bush_.getPosition());
+    });
+    if (not isOnValidMovementSurface) {
         isAlive_ = false;
     }
 }

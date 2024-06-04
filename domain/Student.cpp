@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "obstacles/Poop.hpp"
+#include "obstacles/Door.hpp"
 #include "../engine/Utility.hpp"
 #include "fmt/format.h"
 
@@ -54,24 +55,41 @@ auto Student::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
 
     auto spaceBetweenHearts = 70.0f;
 
-    for (auto i = 0; i < currentHp_ / 2; ++i) {
-        auto xPosition = i * spaceBetweenHearts;
-        auto fullHeart = sf::Sprite();
-        fullHeart.setTexture(heart_);
-        fullHeart.setTextureRect(sf::IntRect(1, 1, 12, 11));
-        fullHeart.setPosition(xPosition, 0);
-        fullHeart.setScale(scale_);
-        target.draw(fullHeart);
-    }
+    for (auto screenOffset : {0.0f, -1920.0f}) {
+        for (auto i = 0; i < currentHp_ / 2; ++i) {
+            auto xPosition = i * spaceBetweenHearts;
+            auto fullHeart = sf::Sprite();
+            fullHeart.setTexture(heart_);
+            fullHeart.setTextureRect(sf::IntRect(1, 1, 12, 11));
+            fullHeart.setPosition(xPosition, screenOffset);
+            fullHeart.setScale(scale_);
+            target.draw(fullHeart);
+        }
 
-    if (currentHp_ % 2 != 0) {
-        auto halfHeart = sf::Sprite();
-        halfHeart.setTexture(heart_);
-        halfHeart.setTextureRect(sf::IntRect(17, 1, 12, 11));
-        halfHeart.setPosition(currentHp_ / 2 * spaceBetweenHearts, 0);
-        halfHeart.setScale(scale_);
-        target.draw(halfHeart);
+        if (currentHp_ % 2 != 0) {
+            auto halfHeart = sf::Sprite();
+            halfHeart.setTexture(heart_);
+            halfHeart.setTextureRect(sf::IntRect(17, 1, 12, 11));
+            halfHeart.setPosition(currentHp_ / 2 * spaceBetweenHearts, screenOffset);
+            halfHeart.setScale(scale_);
+            target.draw(halfHeart);
+        }
     }
+}
+
+auto Student::moveToAnotherRoom(Game& game) -> void {
+    auto& window = game.window();
+    auto view = window.getView();
+    view.move(0, -float(game.assets().desktopMode().height));
+    window.setView(view);
+
+    auto const offset = sf::Vector2f(0, -800);
+
+    head_.move(offset);
+    body_.move(offset);
+    shouldTransportToAnotherRoom_ = false;
+
+    game.spawnChrzastowski();
 }
 
 auto Student::update(Game& game) -> void {
@@ -96,7 +114,10 @@ auto Student::update(Game& game) -> void {
         return ptr->getGlobalBounds().contains(nextPosition);
     });
 
-    if (game.movementSurface().contains(nextPosition) and willNotCollideWithAnyObstacles) {
+    auto const isOnValidMovementSurface = std::ranges::any_of(game.movementSurface(), [nextPosition](sf::FloatRect const rect) {
+        return rect.contains(nextPosition);
+    });
+    if (isOnValidMovementSurface and willNotCollideWithAnyObstacles) {
         head_.move(movementVector);
         body_.move(movementVector);
     }
@@ -118,6 +139,10 @@ auto Student::update(Game& game) -> void {
             game.spawnShootingTear(getPosition(), {0, 1.0f}, tearScale_, damage_);
             shootingClock_.restart();
         }
+    }
+
+    if (shouldTransportToAnotherRoom_) {
+        moveToAnotherRoom(game);
     }
 }
 
@@ -156,13 +181,14 @@ auto Student::becomeFAST() -> void {
 
 auto Student::increaseHp() -> void {
     currentHp_ += 2;
+    maxHp_ += 2;
 }
 
 auto Student::serializeToString() const -> std::string {
     return fmt::format(
-        "Student {} {} {} {} {}",
+        "Student {} {} {} {} {} {} {}",
         getPosition().x, getPosition().y,
-        currentHp_, tearScale_, velocity_
+        currentHp_, tearScale_, velocity_, damage_, maxHp_
     );
 }
 
@@ -171,10 +197,20 @@ auto Student::deserializeFromString(std::string const& str) -> void {
     auto stream = std::istringstream(withoutType);
     auto x = float();
     auto y = float();
-    stream >> x >> y >> currentHp_ >> tearScale_ >> velocity_;
+    stream >> x >> y >> currentHp_ >> tearScale_ >> velocity_ >> damage_ >> maxHp_;
     setPosition(x, y);
 }
 
 auto Student::increaseDamage() -> void {
     damage_ += 1;
+}
+
+void Student::onCollisionWith(Collidable& other) {
+    if (other.is<Door>() and other.as<Door>().isOpen()) {
+        shouldTransportToAnotherRoom_ = true;
+    }
+}
+
+auto Student::fullyHeal() -> void {
+    currentHp_ = maxHp_;
 }

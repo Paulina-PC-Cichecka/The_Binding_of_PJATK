@@ -1,5 +1,7 @@
 #include "Door.hpp"
 
+#include "../Student.hpp"
+
 #include "SFML/Graphics/RenderTarget.hpp"
 
 Door::Door(sf::Texture const& doorTexture, sf::Vector2f const initialPosition) {
@@ -40,6 +42,14 @@ auto Door::getGlobalBounds() const -> sf::FloatRect {
 auto Door::update(Game& game) -> void {
 
 }
+
+auto Door::open() -> void {
+    doorLeftPart_.setColor(sf::Color::Transparent);
+    doorRightPart_.setColor(sf::Color::Transparent);
+
+    isOpen_ = true;
+}
+
 
 auto Door::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(openDoor_);

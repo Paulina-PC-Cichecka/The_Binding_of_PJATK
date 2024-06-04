@@ -10,12 +10,17 @@ class Door : public Collidable, public sf::Drawable {
     sf::Sprite doorRightPart_;
     sf::Sprite openDoor_;
 
-    bool isOpen = false;
-
+    bool isOpen_ = false;
 public:
     Door(sf::Texture const&, sf::Vector2f const);
 
     auto update(Game&) -> void override;
+
+    auto open() -> void;
+
+    auto isOpen() -> bool {
+        return isOpen_;
+    }
 
     auto getGlobalBounds() const -> sf::FloatRect override;
 

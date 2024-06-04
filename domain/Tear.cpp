@@ -33,7 +33,10 @@ auto Tear::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {
 auto Tear::update(Game& game) -> void {
     tear_.move(direction_);
 
-    if (not game.movementSurface().contains(tear_.getPosition())) {
+    auto const isOnValidMovementSurface = std::ranges::any_of(game.movementSurface(), [this](sf::FloatRect const rect) {
+        return rect.contains(tear_.getPosition());
+    });
+    if (not isOnValidMovementSurface) {
         isAlive_ = false;
     }
 }

@@ -17,7 +17,7 @@ class Chrzastowski : public Collidable, public sf::Drawable {
     double shootingCooldownForExam_ = 1;
 
 public:
-    Chrzastowski(sf::Texture const&);
+    Chrzastowski(sf::Texture const&, sf::Vector2f const);
 
     auto moveTowards(sf::Vector2f const, Game const&) -> void;
 

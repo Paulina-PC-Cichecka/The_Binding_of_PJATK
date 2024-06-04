@@ -73,7 +73,10 @@ auto Card::update(Game& game) -> void {
     moveTowards(student.getPosition(), game);
     card_.rotate(2);
 
-    if (not game.movementSurface().contains(card_.getPosition())) {
+    auto const isOnValidMovementSurface = std::ranges::any_of(game.movementSurface(), [this](sf::FloatRect const rect) {
+        return rect.contains(card_.getPosition());
+    });
+    if (not isOnValidMovementSurface) {
         isAlive_ = false;
     }
 }

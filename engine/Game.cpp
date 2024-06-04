@@ -1,6 +1,7 @@
 #include <fstream>
 #include <memory>
 #include <utility>
+#include <sstream>
 
 #include <fmt/ostream.h>
 
@@ -102,8 +103,20 @@ auto Game::spawnDoor() -> Entity* {
     return entities_.back().get();
 }
 
+auto Game::window() -> sf::RenderWindow& {
+    return window_;
+}
+
+auto Game::assets() -> Assets const& {
+    return assets_;
+}
+
 Game::Game(sf::RenderWindow& window)
-    : window_(window), movementSurface_(319.0f, 319.0f, 2241.0f, 1186.0f) {
+    : window_(window), movementSurfaces_{{319.0f, 319.0f, 2241.0f, 1186.0f}} {
+    auto upperRoomSurface = movementSurfaces_.front();
+    upperRoomSurface.top -= float(assets_.desktopMode().height);
+    movementSurfaces_.push_back(upperRoomSurface);
+
     assets_.loadBasement();
     assets_.loadDoor();
     assets_.loadStudent();
@@ -188,7 +201,8 @@ auto Game::spawnKwiatkowski() -> Entity* {
 
 auto Game::spawnChrzastowski() -> Entity* {
     auto chrzastowski = std::make_unique<Chrzastowski>(
-        assets_.textures()[Assets::Element::CHRZASTOWSKI]
+        assets_.textures()[Assets::Element::CHRZASTOWSKI],
+        sf::Vector2f(assets_.desktopMode().width / 2, -float(assets_.desktopMode().height) / 2)
     );
 
     enqueuedDrawables_.push_back(chrzastowski.get());
@@ -385,11 +399,11 @@ auto Game::reorderDrawables() -> void {
 auto Game::renderFrame() -> void {
     window_.clear(sf::Color::White);
 
-    for (auto const& drawable: assets_.genericMapElements()) {
+    for (auto const& drawable : assets_.genericMapElements()) {
         window_.draw(drawable);
     }
 
-    for (auto const& drawable: drawables_) {
+    for (auto const& drawable : drawables_) {
         window_.draw(*drawable);
     }
 
@@ -404,17 +418,20 @@ auto Game::pollAndHandleEvents() -> void {
     );
 }
 
-auto Game::removeAllDeadElements() -> void { {
+auto Game::removeAllDeadElements() -> void {
+    {
         auto toErase = std::ranges::remove_if(collidables_, [](Collidable const* el) {
             return not el->isAlive();
         });
         collidables_.erase(toErase.begin(), toErase.end());
-    } {
+    }
+    {
         auto toErase = std::ranges::remove_if(drawables_, [](sf::Drawable const* el) {
             return not dynamic_cast<Entity const*>(el)->isAlive();
         });
         drawables_.erase(toErase.begin(), toErase.end());
-    } {
+    }
+    {
         auto toErase = std::ranges::remove_if(entities_, [](std::unique_ptr<Entity> const& el) {
             return not el->isAlive();
         });
@@ -454,7 +471,8 @@ auto Game::spawnChrzastowskiIfNecessary() -> void {
     if (not chrzastowskiWasSpawned_) {
         chrzastowskiWasSpawned_ = true;
         auto chrzastowski = std::make_unique<Chrzastowski>(
-            assets_.textures()[Assets::Element::CHRZASTOWSKI]
+            assets_.textures()[Assets::Element::CHRZASTOWSKI],
+            sf::Vector2f(assets_.desktopMode().width / 2, -float(assets_.desktopMode().height) / 2)
         );
 
         enqueuedDrawables_.push_back(chrzastowski.get());
@@ -502,6 +520,13 @@ auto Game::saveAllEntitiesToFile(std::string const& path) const -> void {
     for (auto const& entity : entities_) {
         fmt::println(saveFile, "{}", entity->serializeToString());
     }
+
+    auto const viewCenter = window_.getView().getCenter();
+    auto const viewSize   = window_.getView().getSize();
+    fmt::println(
+        saveFile, "view {} {} {} {}",
+        viewCenter.x, viewCenter.y, viewSize.x, viewSize.y
+    );
 }
 
 auto Game::loadAllEntitiesFromFile(std::string const& path) -> void {
@@ -515,11 +540,19 @@ auto Game::loadAllEntitiesFromFile(std::string const& path) -> void {
 
     auto saveFile = std::ifstream(path);
 
-    for (
-        auto line = std::string();
-        std::getline(saveFile, line);
-        createEntityUsingSerialization(line)
-    );
+    auto line = std::string();
+    while (std::getline(saveFile, line) and !line.starts_with("view")) {
+        createEntityUsingSerialization(line);
+    }
+
+    auto stream = std::istringstream(line.substr(5));
+    auto viewCenter = sf::Vector2f();
+    auto viewSize   = sf::Vector2f();
+    stream >> viewCenter.x >> viewCenter.y >> viewSize.x >> viewSize.y;
+    auto view = sf::View();
+    view.setCenter(viewCenter);
+    view.setSize(viewSize);
+    window_.setView(view);
 }
 
 auto Game::createEntityUsingSerialization(const std::string& line) -> void {
@@ -559,6 +592,8 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
         createdEntity = spawnShootingCard({}, {});
     } else if (type == "ShortTest") {
         createdEntity = spawnShootingShortTest({}, {});
+    } else if (type == "Chrzastowski") {
+        createdEntity = spawnChrzastowski();
     }
 
     if (!createdEntity) {

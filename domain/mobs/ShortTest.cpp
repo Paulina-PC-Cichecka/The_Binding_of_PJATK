@@ -30,7 +30,10 @@ auto ShortTest::update(Game& game) -> void {
     shortTest_.move(direction_);
     shortTest_.rotate(2);
 
-    if (not game.movementSurface().contains(shortTest_.getPosition())) {
+    auto const isOnValidMovementSurface = std::ranges::any_of(game.movementSurface(), [this](sf::FloatRect const rect) {
+        return rect.contains(shortTest_.getPosition());
+    });
+    if (not isOnValidMovementSurface) {
         isAlive_ = false;
     }
 }

@@ -85,6 +85,10 @@ auto Chrzastowski::update(Game& game) -> void {
         game.spawnShootingExam(getPosition(), direction);
         shootingClockForExam_.restart();
     }
+
+    if (!isAlive_) {
+        game.displaySLAY();
+    }
 }
 
 auto Chrzastowski::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {

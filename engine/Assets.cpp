@@ -127,3 +127,10 @@ auto Assets::loadExam() -> void {
     storage_[Element::EXAM].loadFromFile("../assets/Exam.png");
 }
 
+auto Assets::loadSlay() -> void {
+    fonts_[Font::SLAY].loadFromFile("../assets/Slay.ttf");
+}
+
+auto Assets::loadGameOver() -> void {
+    storage_[Element::GAMEOVER].loadFromFile("../assets/GameOver.png");
+}

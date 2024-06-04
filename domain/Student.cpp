@@ -144,6 +144,10 @@ auto Student::update(Game& game) -> void {
     if (shouldTransportToAnotherRoom_) {
         moveToAnotherRoom(game);
     }
+
+    if (!isAlive_) {
+        game.stop();
+    }
 }
 
 auto Student::canShoot() const -> bool {

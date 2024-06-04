@@ -14,6 +14,7 @@ class Student;
 
 class Game {
     sf::RenderWindow& window_;
+    bool on_ = true;
 
     std::vector<std::unique_ptr<Entity>> entities_;
     std::vector<Collidable*> collidables_;
@@ -33,6 +34,18 @@ class Game {
     std::vector<sf::FloatRect> movementSurfaces_;
 
     std::string defaultSaveFilePath_ = "default.save";
+
+    sf::Text slay_;
+
+    sf::Sprite gameOver_;
+    sf::Sprite gameOver2_;
+    float scaleChange_ = -0.02;
+    sf::Clock pulsatingClock_;
+    double pulsatingClickInterval_ = 0.5;
+
+    bool shouldDisplaySlay_ = false;
+    bool shouldDisplayGameOver_ = false;
+
 public:
     auto spawnSushi() -> Entity*;
 
@@ -52,6 +65,8 @@ public:
 
     auto assets() -> Assets const&;
 
+    auto stop() -> void;
+
     explicit Game(sf::RenderWindow& window);
 
     Game(Game const&) = delete;
@@ -68,7 +83,7 @@ public:
 
     auto handleKeyReleased(sf::Event const event) -> void;
 
-    void updateAllEntities();
+    auto updateAllEntities() -> void;
 
     auto handleEvent(sf::Event const event) -> void;
 
@@ -85,6 +100,8 @@ public:
     auto pollAndHandleEvents() -> void;
 
     auto removeAllDeadElements() -> void;
+
+    auto displaySLAY() -> void;
 
     auto movementSurface() const -> std::vector<sf::FloatRect> const& {
         return movementSurfaces_;
@@ -123,6 +140,10 @@ public:
     auto loadAllEntitiesFromFile(std::string const&) -> void;
 
     auto createEntityUsingSerialization(const std::string&) -> void;
+
+    auto clearAllEntities() -> void;
+
+    auto displayGameOver() -> void;
 
 private:
     // used for loading (in the future maybe used for delegation) - nothing else should call these unconditionally

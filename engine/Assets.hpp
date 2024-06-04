@@ -7,14 +7,21 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/VideoMode.hpp>
 
+#include "SFML/Graphics/Font.hpp"
+
 class Assets {
 public:
     enum class Element {
         BASEMENT, DOOR, STUDENT, TEAR, HEART, KWIATKOWSKI, SHORTTEST, CARD, POOP, BOOTS, SUSHI,
-        DRUG, TOMASZEW, SMYCZEK, BUSH, VODKA, CHRZASTOWSKI, PRESENT, EXAM
+        DRUG, TOMASZEW, SMYCZEK, BUSH, VODKA, CHRZASTOWSKI, PRESENT, EXAM, GAMEOVER
+    };
+
+    enum class Font {
+        SLAY
     };
 private:
     std::map<Element, sf::Texture> storage_;
+    std::map<Font, sf::Font> fonts_;
     std::vector<sf::Sprite> genericMapElements_;
     sf::VideoMode desktopMode_;
 public:
@@ -60,6 +67,10 @@ public:
 
     auto loadExam() -> void;
 
+    auto loadSlay() -> void;
+
+    auto loadGameOver() -> void;
+
     auto genericMapElements() const -> std::vector<sf::Sprite> const& {
         return genericMapElements_;
     }
@@ -70,5 +81,9 @@ public:
 
     auto desktopMode() const -> sf::VideoMode {
         return desktopMode_;
+    }
+
+    auto fonts() -> std::map<Font, sf::Font>& {
+        return fonts_;
     }
 };

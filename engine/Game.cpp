@@ -113,6 +113,10 @@ auto Game::assets() -> Assets const& {
     return assets_;
 }
 
+auto Game::stop() -> void {
+    on_ = false;
+}
+
 Game::Game(sf::RenderWindow& window)
     : window_(window), movementSurfaces_{{319.0f, 319.0f, 2241.0f, 1186.0f}} {
     auto upperRoomSurface = movementSurfaces_.front();
@@ -138,6 +142,8 @@ Game::Game(sf::RenderWindow& window)
     assets_.loadChrzastowski();
     assets_.loadPresent();
     assets_.loadExam();
+    assets_.loadSlay();
+    assets_.loadGameOver();
 
     spawnStudent();
 
@@ -229,6 +235,8 @@ auto Game::handleEvent(sf::Event const event) -> void {
 }
 
 auto Game::handleKeyPressed(sf::Event const event) -> void {
+    if (!on_) return;
+
     auto& studentPtr = *std::ranges::find_if(entities_, [](std::unique_ptr<Entity> const& ptr) {
         return ptr->is<Student>();
     });
@@ -349,6 +357,8 @@ auto Game::spawnShootingBush(
 }
 
 auto Game::handleKeyReleased(sf::Event const event) -> void {
+    if (!on_) return;
+
     auto& studentPtr = *std::ranges::find_if(entities_, [](std::unique_ptr<Entity> const& ptr) {
         return ptr->is <Student>();
     });
@@ -440,6 +450,21 @@ auto Game::renderFrame() -> void {
         window_.draw(*drawable);
     }
 
+    if (shouldDisplaySlay_) {
+        if (pulsatingClock_.getElapsedTime().asSeconds() >= pulsatingClickInterval_) {
+            pulsatingClock_.restart();
+            scaleChange_ *= -1.0f;
+        }
+        slay_.setScale(slay_.getScale() + sf::Vector2f(scaleChange_, scaleChange_));
+
+        window_.draw(slay_);
+    }
+
+    if (shouldDisplayGameOver_) {
+        window_.draw(gameOver_);
+        window_.draw(gameOver2_);
+    }
+
     window_.display();
 }
 
@@ -452,6 +477,12 @@ auto Game::pollAndHandleEvents() -> void {
 }
 
 auto Game::removeAllDeadElements() -> void {
+    if (!on_) {
+        clearAllEntities();
+        displayGameOver();
+        return;
+    }
+
     {
         auto toErase = std::ranges::remove_if(collidables_, [](Collidable const* el) {
             return not el->isAlive();
@@ -638,4 +669,34 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
     }
 
     createdEntity->deserializeFromString(line);
+}
+
+auto Game::displaySLAY() -> void {
+    slay_ = sf::Text("BIG SLAY", assets_.fonts()[Assets::Font::SLAY], 500);
+    slay_.setFillColor(sf::Color::White);
+    slay_.setOrigin(slay_.getGlobalBounds().getSize() / 2.0f + slay_.getLocalBounds().getPosition());
+    slay_.setPosition(assets_.desktopMode().width / 2, -float(assets_.desktopMode().height / 2));
+    shouldDisplaySlay_ = true;
+}
+
+auto Game::clearAllEntities() -> void {
+    entities_.clear();
+    drawables_.clear();
+    collidables_.clear();
+    enqueuedEntities_.clear();
+    enqueuedDrawables_.clear();
+    enqueuedCollidables_.clear();
+}
+
+auto Game::displayGameOver() -> void {
+    gameOver_.setTexture(assets_.textures()[Assets::Element::GAMEOVER]);
+    gameOver_.setTextureRect(sf::IntRect(0, 0, 422, 182));
+    gameOver_.setScale(5, 5);
+    gameOver_.setOrigin(422 / 2.0f, 182 / 2.0f);
+    gameOver_.setPosition(assets_.desktopMode().width / 2, assets_.desktopMode().height / 2);
+
+    gameOver2_ = gameOver_;
+    gameOver2_.move(0, -float(assets_.desktopMode().height));
+    shouldDisplayGameOver_ = true;
+    pulsatingClock_.restart();
 }

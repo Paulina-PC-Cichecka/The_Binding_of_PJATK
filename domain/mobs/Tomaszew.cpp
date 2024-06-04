@@ -69,7 +69,7 @@ auto Tomaszew::getGlobalBounds() const -> sf::FloatRect {
 auto Tomaszew::onCollisionWith(Collidable& other) -> void {
     if (other.is<Student>()) {
         if (damageClock_.getElapsedTime().asSeconds() > damageCooldown_) {
-            other.as<Student>().decreaseHp();
+            other.as<Student>().decreaseHp(1);
             damageClock_.restart();
         }
     }

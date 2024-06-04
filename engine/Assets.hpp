@@ -11,7 +11,7 @@ class Assets {
 public:
     enum class Element {
         BASEMENT, DOOR, STUDENT, TEAR, HEART, KWIATKOWSKI, SHORTTEST, CARD, POOP, BOOTS, SUSHI,
-        DRUG, TOMASZEW, SMYCZEK, BUSH, VODKA, CHRZASTOWSKI
+        DRUG, TOMASZEW, SMYCZEK, BUSH, VODKA, CHRZASTOWSKI, PRESENT
     };
 private:
     std::map<Element, sf::Texture> storage_;
@@ -55,6 +55,8 @@ public:
     auto loadVodka() -> void;
 
     auto loadChrzastowski() -> void;
+
+    auto loadPresent() -> void;
 
     auto genericMapElements() const -> std::vector<sf::Sprite> const& {
         return genericMapElements_;

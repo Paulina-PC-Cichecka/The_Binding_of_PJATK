@@ -119,3 +119,6 @@ auto Assets::loadChrzastowski() -> void {
     storage_[Element::CHRZASTOWSKI].loadFromFile("../assets/NibyChrzastowski.png");
 }
 
+auto Assets::loadPresent() -> void {
+    storage_[Element::PRESENT].loadFromFile("../assets/Present.png");
+}

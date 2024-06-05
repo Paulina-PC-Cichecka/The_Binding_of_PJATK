@@ -70,7 +70,6 @@ auto Door::onCollisionWith(Collidable& other) -> void {
 
 auto Door::serializeToString() const -> std::string {
     return fmt::format("Door {}", isOpen_ ? 1 : 0);
-    //TODO naprawić zapisywanie otwartych drzwi
 }
 
 auto Door::deserializeFromString(const std::string& str) -> void {
@@ -82,4 +81,3 @@ auto Door::deserializeFromString(const std::string& str) -> void {
         open();
     }
 }
-

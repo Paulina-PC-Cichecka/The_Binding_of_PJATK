@@ -8,10 +8,10 @@
 class Exam : public Collidable, public sf::Drawable  {
     sf::Sprite exam_;
     sf::Vector2f direction_;
-    // sf::Clock lifespan_;
-    // double killExam_ = 5;
+    sf::Clock lifespan_;
+    double killExam_ = 5;
 
-    static const inline auto velocity_ = 20.0f;
+    static const inline auto velocity_ = 10.0f;
 
 public:
     Exam(sf::Texture const&, sf::Vector2f const, sf::Vector2f const);

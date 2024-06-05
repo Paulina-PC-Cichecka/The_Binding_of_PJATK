@@ -63,22 +63,22 @@ auto Exam::moveTowards(sf::Vector2f const destination, Game const& game) -> void
 }
 
 auto Exam::update(Game& game) -> void {
-    // auto const& studentPtr = *std::ranges::find_if(game.entities(), [](std::unique_ptr<Entity> const& ptr) {
-    //     return ptr->is<Student>();
-    // });
+    auto const& studentPtr = *std::ranges::find_if(game.entities(), [](std::unique_ptr<Entity> const& ptr) {
+        return ptr->is<Student>();
+    });
 
-    exam_.move(direction_);
-    exam_.rotate(2);
+    // exam_.move(direction_);
+    // exam_.rotate(2);
 
     auto const isOnValidMovementSurface = std::ranges::any_of(game.movementSurface(), [this](sf::FloatRect const rect) {
         return rect.contains(exam_.getPosition());
     });
 
-        // auto const& student = studentPtr->as<Student>();
-        // moveTowards(student.getPosition(), game);
-        // exam_.rotate(2);
+        auto const& student = studentPtr->as<Student>();
+        moveTowards(student.getPosition(), game);
+        exam_.rotate(2);
 
-    if (not isOnValidMovementSurface) {
+    if (not isOnValidMovementSurface or lifespan_.getElapsedTime().asSeconds() >= killExam_) {
         isAlive_ = false;
     }
 }

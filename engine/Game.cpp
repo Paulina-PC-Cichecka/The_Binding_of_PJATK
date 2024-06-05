@@ -329,6 +329,7 @@ auto Game::spawnShootingCard(
 auto Game::spawnShootingExam(
     sf::Vector2f const initialPosition, sf::Vector2f const direction
 ) -> Entity* {
+
     auto exam = std::make_unique<Exam>(
         assets_.textures()[Assets::Element::EXAM],
         initialPosition, direction

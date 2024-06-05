@@ -2,4 +2,4 @@ Perfect pixel collision for rotating objects :00000000000000000
 
 Trzeba zmienić sprite'y
 
-Dodać naprowadzanie na egzaminy i clock ich życia
+Dodać naprowadzanie na egzaminy i clock ich życia (chyba zrobione i to nawet dobrze XD)

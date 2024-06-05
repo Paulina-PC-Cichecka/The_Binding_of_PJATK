@@ -30,13 +30,54 @@ auto Exam::getGlobalBounds() const -> sf::FloatRect {
     return originalBounds;
 }
 
+auto Exam::moveTowards(sf::Vector2f const destination, Game const& game) -> void {
+    auto const from = exam_.getPosition();
+
+    auto const direction = normalized(destination - from);
+
+    exam_.move(direction * velocity_);
+
+    auto const objectWeCollidedWith = std::ranges::find_if(
+        game.collidables(), [this](Collidable* c) {
+            return c->getGlobalBounds().intersects(getGlobalBounds()) and c->is<Poop>();
+        }
+    );
+
+    auto const weCollidedWhileMoving = objectWeCollidedWith != game.collidables().end();
+
+    if (weCollidedWhileMoving) {
+        // go back
+        exam_.setPosition(from);
+        auto const moveOnlyUpOrDown = sf::Vector2f(0, direction.y > 0 ? velocity_ : -velocity_);
+        exam_.move(moveOnlyUpOrDown);
+
+        auto const needToMoveLeftOrRightInstead =
+                (*objectWeCollidedWith)->getGlobalBounds().intersects(getGlobalBounds());
+
+        if (needToMoveLeftOrRightInstead) {
+            exam_.setPosition(from);
+            auto const moveOnlyLeftOrRight = sf::Vector2f(direction.x > 0 ? velocity_ : -velocity_, 0);
+            exam_.move(moveOnlyLeftOrRight);
+        }
+    }
+}
+
 auto Exam::update(Game& game) -> void {
+    // auto const& studentPtr = *std::ranges::find_if(game.entities(), [](std::unique_ptr<Entity> const& ptr) {
+    //     return ptr->is<Student>();
+    // });
+
     exam_.move(direction_);
     exam_.rotate(2);
 
     auto const isOnValidMovementSurface = std::ranges::any_of(game.movementSurface(), [this](sf::FloatRect const rect) {
         return rect.contains(exam_.getPosition());
     });
+
+        // auto const& student = studentPtr->as<Student>();
+        // moveTowards(student.getPosition(), game);
+        // exam_.rotate(2);
+
     if (not isOnValidMovementSurface) {
         isAlive_ = false;
     }

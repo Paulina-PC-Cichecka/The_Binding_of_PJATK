@@ -16,11 +16,11 @@ class Game {
     sf::RenderWindow& window_;
     bool on_ = true;
 
-    std::vector<std::unique_ptr<Entity>> entities_;
+    std::vector<std::unique_ptr<Entity> > entities_;
     std::vector<Collidable*> collidables_;
     std::vector<sf::Drawable*> drawables_;
 
-    std::vector<std::unique_ptr<Entity>> enqueuedEntities_;
+    std::vector<std::unique_ptr<Entity> > enqueuedEntities_;
     std::vector<Collidable*> enqueuedCollidables_;
     std::vector<sf::Drawable*> enqueuedDrawables_;
 
@@ -73,7 +73,8 @@ public:
 
     auto spawnStudent() -> Entity*;
 
-    auto spawnShootingTear(sf::Vector2f const, sf::Vector2f const, float const, int const) -> Entity*;
+    auto spawnShootingTear(sf::Vector2f const, sf::Vector2f const, float const,
+                           int const) -> Entity*;
 
     auto spawnShootingShortTest(sf::Vector2f const, sf::Vector2f const) -> Entity*;
 
@@ -107,7 +108,7 @@ public:
         return movementSurfaces_;
     }
 
-    auto entities() const -> std::vector<std::unique_ptr<Entity>> const& {
+    auto entities() const -> std::vector<std::unique_ptr<Entity> > const& {
         return entities_;
     }
 
@@ -147,9 +148,11 @@ public:
 
 private:
     // used for loading (in the future maybe used for delegation) - nothing else should call these unconditionally
-    auto spawnTomaszewkaAt(float const = randomize(320, 2500), float const = randomize(320, 1000)) -> Entity*;
+    auto spawnTomaszewkaAt(float const = randomize(320, 2500),
+                           float const = randomize(320, 1000)) -> Entity*;
 
-    auto spawnSmyczekAt(float const = randomize(320, 2500), float const = randomize(320, 1000)) -> Entity*;
+    auto spawnSmyczekAt(float const = randomize(320, 2500),
+                        float const = randomize(320, 1000)) -> Entity*;
 
     auto spawnKwiatkowski() -> Entity*;
 };

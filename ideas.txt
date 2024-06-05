@@ -1,3 +1,5 @@
-Drzwi to Collidable i kolizja z nimi pozwala nam przejść do innego pokoju
-
 Perfect pixel collision for rotating objects :00000000000000000
+
+Trzeba zmienić sprite'y
+
+Dodać naprowadzanie na egzaminy i clock ich życia

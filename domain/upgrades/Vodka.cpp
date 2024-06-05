@@ -8,9 +8,9 @@
 
 Vodka::Vodka(sf::Texture const& vodkaTexture, sf::Vector2f const initialPosition) {
     vodka_.setTexture(vodkaTexture);
-    vodka_.setTextureRect(sf::IntRect(11, 251, 17, 26));
-    vodka_.setScale(5, 5);
-    vodka_.setOrigin(17 / 2.0f, 26 / 2.0f);
+    vodka_.setTextureRect(sf::IntRect(153, 60, 177, 653));
+    vodka_.setScale(0.3, 0.3);
+    vodka_.setOrigin(177 / 2.0f, 653 / 2.0f);
     vodka_.setPosition(initialPosition);
 }
 

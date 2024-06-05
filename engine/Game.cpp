@@ -458,6 +458,21 @@ auto Game::renderFrame() -> void {
         slay_.setScale(slay_.getScale() + sf::Vector2f(scaleChange_, scaleChange_));
 
         window_.draw(slay_);
+
+        std::ranges::remove_if(
+            entities_.begin(), entities_.end(), [](std::unique_ptr<Entity> const& ptr) {
+                return !ptr->is<Student>();
+        });
+
+        std::ranges::remove_if(
+            drawables_.begin(), drawables_.end(), [](sf::Drawable* d) {
+                return !dynamic_cast<Entity*>(d)->is<Student>();
+        });
+
+        std::ranges::remove_if(
+            collidables_.begin(), collidables_.end(), [](Collidable* c) {
+                return !c->is<Student>();
+        });
     }
 
     if (shouldDisplayGameOver_) {

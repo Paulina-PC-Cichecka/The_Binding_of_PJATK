@@ -15,6 +15,7 @@ public:
 
     virtual ~Entity() = default;
 
+    //credits -> mr. Kwiatkowski
     virtual auto update(Game&) -> void = 0;
 
     static auto generateNextId() -> int;

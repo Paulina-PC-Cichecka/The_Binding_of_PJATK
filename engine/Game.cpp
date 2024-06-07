@@ -460,20 +460,60 @@ auto Game::renderFrame() -> void {
 
         window_.draw(slay_);
 
-        std::ranges::remove_if(
-            entities_.begin(), entities_.end(), [](std::unique_ptr<Entity> const& ptr) {
-                return !ptr->is<Student>();
-        });
+        {
+            auto toErase = std::ranges::remove_if(
+               drawables_.begin(), drawables_.end(), [](sf::Drawable* d) {
+                   return !dynamic_cast<Entity*>(d)->is<Student>();
+           });
 
-        std::ranges::remove_if(
-            drawables_.begin(), drawables_.end(), [](sf::Drawable* d) {
-                return !dynamic_cast<Entity*>(d)->is<Student>();
-        });
+            drawables_.erase(toErase.begin(), toErase.end());
+        }
 
-        std::ranges::remove_if(
-            collidables_.begin(), collidables_.end(), [](Collidable* c) {
-                return !c->is<Student>();
-        });
+        {
+            auto toErase = std::ranges::remove_if(
+               enqueuedDrawables_.begin(), enqueuedDrawables_.end(), [](sf::Drawable* d) {
+                   return !dynamic_cast<Entity*>(d)->is<Student>();
+               });
+
+            enqueuedDrawables_.erase(toErase.begin(), toErase.end());
+        }
+
+        {
+            auto toErase = std::ranges::remove_if(
+               collidables_.begin(), collidables_.end(), [](Collidable* c) {
+                   return !c->is<Student>();
+           });
+
+            collidables_.erase(toErase.begin(), toErase.end());
+        }
+
+        {
+            auto toErase = std::ranges::remove_if(
+               enqueuedCollidables_.begin(), enqueuedCollidables_.end(), [](Collidable* c) {
+                   return !c->is<Student>();
+           });
+
+            enqueuedCollidables_.erase(toErase.begin(), toErase.end());
+        }
+
+        {
+            auto toErase = std::ranges::remove_if(
+               entities_.begin(), entities_.end(), [](std::unique_ptr<Entity> const& ptr) {
+                   return !ptr->is<Student>();
+           });
+
+            entities_.erase(toErase.begin(), toErase.end());
+        }
+
+        {
+            auto toErase = std::ranges::remove_if(
+              enqueuedEntities_.begin(), enqueuedEntities_.end(), [](std::unique_ptr<Entity> const& ptr) {
+                   return !ptr->is<Student>();
+           });
+
+            enqueuedEntities_.erase(toErase.begin(), toErase.end());
+        }
+
     }
 
     if (shouldDisplayGameOver_) {

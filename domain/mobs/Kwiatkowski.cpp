@@ -90,6 +90,10 @@ auto Kwiatkowski::update(Game& game) -> void {
     if (!isAlive_) {
         game.spawnVodkaIfNecessary();
     }
+
+    if (currentHp_ <= maxHp_ / 2) {
+        kwiatkowski_.setColor(sf::Color::Red);
+    }
 }
 
 auto Kwiatkowski::draw(sf::RenderTarget& target, sf::RenderStates) const -> void {

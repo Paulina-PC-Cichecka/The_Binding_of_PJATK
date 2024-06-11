@@ -12,9 +12,9 @@
 
 Smyczek::Smyczek(sf::Texture const& body, sf::Vector2f const initialPosition) {
     smyczek_.setTexture(body);
-    smyczek_.setTextureRect(sf::IntRect(34, 20, 27, 43));
-    smyczek_.setScale(5, 5);
-    smyczek_.setOrigin(27 / 2.0f, 43 / 2.0f);
+    smyczek_.setTextureRect(sf::IntRect(0, 0, 24, 42));
+    smyczek_.setScale(6, 6);
+    smyczek_.setOrigin(24 / 2.0f, 42 / 2.0f);
     smyczek_.setPosition(initialPosition);
 }
 

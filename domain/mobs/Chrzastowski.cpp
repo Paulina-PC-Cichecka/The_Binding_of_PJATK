@@ -12,9 +12,9 @@
 
 Chrzastowski::Chrzastowski(sf::Texture const& body, sf::Vector2f const initialPosition) {
     chrzastowski_.setTexture(body);
-    chrzastowski_.setTextureRect(sf::IntRect(12, 123, 71, 58));
-    chrzastowski_.setScale(5, 5);
-    chrzastowski_.setOrigin(71 / 2.0f, 58 / 2.0f);
+    chrzastowski_.setTextureRect(sf::IntRect(0, 0, 41, 56));
+    chrzastowski_.setScale(10, 10);
+    chrzastowski_.setOrigin(41 / 2.0f, 56 / 2.0f);
     chrzastowski_.setPosition(initialPosition);
 }
 
@@ -88,6 +88,10 @@ auto Chrzastowski::update(Game& game) -> void {
 
     if (!isAlive_) {
         game.displaySLAY();
+    }
+
+    if (currentHp_ <= maxHp_ / 2) {
+        chrzastowski_.setColor(sf::Color::Red);
     }
 }
 

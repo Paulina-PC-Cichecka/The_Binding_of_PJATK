@@ -96,11 +96,11 @@ auto Assets::loadDrug() -> void {
 }
 
 auto Assets::loadTomaszew() -> void {
-    storage_[Element::TOMASZEW].loadFromFile("../assets/NibyTomaszew.png");
+    storage_[Element::TOMASZEW].loadFromFile("../assets/Tomaszew.png");
 }
 
 auto Assets::loadSmyczek() -> void {
-    storage_[Element::SMYCZEK].loadFromFile("../assets/NibySmyczek.png");
+    storage_[Element::SMYCZEK].loadFromFile("../assets/Smyczek.png");
 }
 
 auto Assets::loadBush() -> void {
@@ -116,7 +116,7 @@ auto Assets::loadVodka() -> void {
 }
 
 auto Assets::loadChrzastowski() -> void {
-    storage_[Element::CHRZASTOWSKI].loadFromFile("../assets/NibyChrzastowski.png");
+    storage_[Element::CHRZASTOWSKI].loadFromFile("../assets/Chrzastowski.png");
 }
 
 auto Assets::loadPresent() -> void {

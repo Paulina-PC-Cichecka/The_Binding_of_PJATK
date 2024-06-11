@@ -11,8 +11,8 @@
 
 Tomaszew::Tomaszew(sf::Texture const& body, sf::Vector2f const initialPosition) {
     tomaszew_.setTexture(body);
-    tomaszew_.setTextureRect(sf::IntRect(2, 5, 27, 24));
-    tomaszew_.setScale(5, 5);
+    tomaszew_.setTextureRect(sf::IntRect(1, 1, 25, 22));
+    tomaszew_.setScale(6, 6);
     tomaszew_.setPosition(initialPosition);
 }
 

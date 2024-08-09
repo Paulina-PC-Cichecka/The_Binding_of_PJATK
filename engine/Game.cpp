@@ -329,7 +329,6 @@ auto Game::spawnShootingCard(
 auto Game::spawnShootingExam(
     sf::Vector2f const initialPosition, sf::Vector2f const direction
 ) -> Entity* {
-
     auto exam = std::make_unique<Exam>(
         assets_.textures()[Assets::Element::EXAM],
         initialPosition, direction
@@ -361,10 +360,10 @@ auto Game::handleKeyReleased(sf::Event const event) -> void {
     if (!on_) return;
 
     auto& studentPtr = *std::ranges::find_if(entities_, [](std::unique_ptr<Entity> const& ptr) {
-        return ptr->is <Student>();
+        return ptr->is<Student>();
     });
 
-    auto& student = studentPtr->as <Student>();
+    auto& student = studentPtr->as<Student>();
 
     switch (event.key.code) {
         case sf::Keyboard::A:
@@ -404,7 +403,7 @@ auto Game::handleCollisions() -> void {
 }
 
 auto Game::updateAllEntities() -> void {
-    for (auto const& entity : entities_) {
+    for (auto const& entity: entities_) {
         entity->update(*this);
     }
 }
@@ -443,11 +442,11 @@ auto Game::reorderDrawables() -> void {
 auto Game::renderFrame() -> void {
     window_.clear(sf::Color::White);
 
-    for (auto const& drawable : assets_.genericMapElements()) {
+    for (auto const& drawable: assets_.genericMapElements()) {
         window_.draw(drawable);
     }
 
-    for (auto const& drawable : drawables_) {
+    for (auto const& drawable: drawables_) {
         window_.draw(*drawable);
     }
 
@@ -458,62 +457,50 @@ auto Game::renderFrame() -> void {
         }
         slay_.setScale(slay_.getScale() + sf::Vector2f(scaleChange_, scaleChange_));
 
-        window_.draw(slay_);
-
-        {
+        window_.draw(slay_); {
             auto toErase = std::ranges::remove_if(
-               drawables_.begin(), drawables_.end(), [](sf::Drawable* d) {
-                   return !dynamic_cast<Entity*>(d)->is<Student>();
-           });
+                drawables_.begin(), drawables_.end(), [](sf::Drawable* d) {
+                    return !dynamic_cast<Entity*>(d)->is<Student>();
+                });
 
             drawables_.erase(toErase.begin(), toErase.end());
-        }
-
-        {
+        } {
             auto toErase = std::ranges::remove_if(
-               enqueuedDrawables_.begin(), enqueuedDrawables_.end(), [](sf::Drawable* d) {
-                   return !dynamic_cast<Entity*>(d)->is<Student>();
-               });
+                enqueuedDrawables_.begin(), enqueuedDrawables_.end(), [](sf::Drawable* d) {
+                    return !dynamic_cast<Entity*>(d)->is<Student>();
+                });
 
             enqueuedDrawables_.erase(toErase.begin(), toErase.end());
-        }
-
-        {
+        } {
             auto toErase = std::ranges::remove_if(
-               collidables_.begin(), collidables_.end(), [](Collidable* c) {
-                   return !c->is<Student>();
-           });
+                collidables_.begin(), collidables_.end(), [](Collidable* c) {
+                    return !c->is<Student>();
+                });
 
             collidables_.erase(toErase.begin(), toErase.end());
-        }
-
-        {
+        } {
             auto toErase = std::ranges::remove_if(
-               enqueuedCollidables_.begin(), enqueuedCollidables_.end(), [](Collidable* c) {
-                   return !c->is<Student>();
-           });
+                enqueuedCollidables_.begin(), enqueuedCollidables_.end(), [](Collidable* c) {
+                    return !c->is<Student>();
+                });
 
             enqueuedCollidables_.erase(toErase.begin(), toErase.end());
-        }
-
-        {
+        } {
             auto toErase = std::ranges::remove_if(
-               entities_.begin(), entities_.end(), [](std::unique_ptr<Entity> const& ptr) {
-                   return !ptr->is<Student>();
-           });
+                entities_.begin(), entities_.end(), [](std::unique_ptr<Entity> const& ptr) {
+                    return !ptr->is<Student>();
+                });
 
             entities_.erase(toErase.begin(), toErase.end());
-        }
-
-        {
+        } {
             auto toErase = std::ranges::remove_if(
-              enqueuedEntities_.begin(), enqueuedEntities_.end(), [](std::unique_ptr<Entity> const& ptr) {
-                   return !ptr->is<Student>();
-           });
+                enqueuedEntities_.begin(), enqueuedEntities_.end(),
+                [](std::unique_ptr<Entity> const& ptr) {
+                    return !ptr->is<Student>();
+                });
 
             enqueuedEntities_.erase(toErase.begin(), toErase.end());
         }
-
     }
 
     if (shouldDisplayGameOver_) {
@@ -537,21 +524,17 @@ auto Game::removeAllDeadElements() -> void {
         clearAllEntities();
         displayGameOver();
         return;
-    }
-
-    {
+    } {
         auto toErase = std::ranges::remove_if(collidables_, [](Collidable const* el) {
             return not el->isAlive();
         });
         collidables_.erase(toErase.begin(), toErase.end());
-    }
-    {
+    } {
         auto toErase = std::ranges::remove_if(drawables_, [](sf::Drawable const* el) {
             return not dynamic_cast<Entity const*>(el)->isAlive();
         });
         drawables_.erase(toErase.begin(), toErase.end());
-    }
-    {
+    } {
         auto toErase = std::ranges::remove_if(entities_, [](std::unique_ptr<Entity> const& el) {
             return not el->isAlive();
         });
@@ -637,12 +620,12 @@ auto Game::spawnSmyczkiIfNecessary() -> void {
 
 auto Game::saveAllEntitiesToFile(std::string const& path) const -> void {
     auto saveFile = std::ofstream(path, std::ios::trunc);
-    for (auto const& entity : entities_) {
+    for (auto const& entity: entities_) {
         fmt::println(saveFile, "{}", entity->serializeToString());
     }
 
     auto const viewCenter = window_.getView().getCenter();
-    auto const viewSize   = window_.getView().getSize();
+    auto const viewSize = window_.getView().getSize();
     fmt::println(
         saveFile, "view {} {} {} {}",
         viewCenter.x, viewCenter.y, viewSize.x, viewSize.y
@@ -667,7 +650,7 @@ auto Game::loadAllEntitiesFromFile(std::string const& path) -> void {
 
     auto stream = std::istringstream(line.substr(5));
     auto viewCenter = sf::Vector2f();
-    auto viewSize   = sf::Vector2f();
+    auto viewSize = sf::Vector2f();
     stream >> viewCenter.x >> viewCenter.y >> viewSize.x >> viewSize.y;
     auto view = sf::View();
     view.setCenter(viewCenter);
@@ -692,7 +675,7 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
     } else if (type == "Boots") {
         tomaszewkiWereSpawned_ = false;
         createdEntity = spawnBoots();
-    }  else if (type == "Poop") {
+    } else if (type == "Poop") {
         createdEntity = spawnPoop({});
     } else if (type == "Door") {
         createdEntity = spawnDoor();
@@ -730,7 +713,8 @@ auto Game::createEntityUsingSerialization(const std::string& line) -> void {
 auto Game::displaySLAY() -> void {
     slay_ = sf::Text("BIG SLAY", assets_.fonts()[Assets::Font::SLAY], 500);
     slay_.setFillColor(sf::Color::White);
-    slay_.setOrigin(slay_.getGlobalBounds().getSize() / 2.0f + slay_.getLocalBounds().getPosition());
+    slay_.setOrigin(
+        slay_.getGlobalBounds().getSize() / 2.0f + slay_.getLocalBounds().getPosition());
     slay_.setPosition(assets_.desktopMode().width / 2, -float(assets_.desktopMode().height / 2));
     shouldDisplaySlay_ = true;
 }

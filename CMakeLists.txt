@@ -10,12 +10,18 @@ FetchContent_Declare(
         fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt
         GIT_TAG 10.2.1
+        GIT_SHALLOW ON
+        EXCLUDE_FROM_ALL
+        SYSTEM
 )
 
 FetchContent_Declare(
         SFML
         GIT_REPOSITORY  https://github.com/SFML/SFML
         GIT_TAG         2.6.1
+        GIT_SHALLOW ON
+        EXCLUDE_FROM_ALL
+        SYSTEM
 )
 
 FetchContent_MakeAvailable(SFML)

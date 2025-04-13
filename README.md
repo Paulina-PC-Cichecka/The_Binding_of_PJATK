@@ -1,6 +1,6 @@
 # The Binding of PJATK
 
-The Binding of PJATK is a humorous 2D game parody inspired by The Binding of Isaac, developed as a C++ course project. The game uses [SFML library](https://github.com/SFML/SFML) version 2.6.1 and a custom engine.
+The Binding of PJATK is a humorous 2D game parody inspired by The Binding of Isaac, developed as a C++ course project. The game uses [SFML library](https://github.com/SFML/SFML) version 2.6.1, [FMT library](https://github.com/fmtlib/fmt) version 10.2.1 and a custom engine.
 
 ## Features
 
@@ -50,4 +50,5 @@ Save files are **stored locally** and can be used to return to your run.
 - C++20 or newer
 - CMake 3.28 or newer
 - SFML 2.6.1 or newer
+- FMT 10.2.1 or newer
 - Sceen resolution 2880 x 1920 - by default (planned change to dynamic)

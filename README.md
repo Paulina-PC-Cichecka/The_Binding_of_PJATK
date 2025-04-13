@@ -1,6 +1,6 @@
 # The Binding of PJATK
 
-The Binding of PJATK is a humorous 2D game parody inspired by The Binding of Isaac, developed as a student project. The game uses SFML library varsion 2.6.1 (https://github.com/SFML/SFML) and custom engine.
+The Binding of PJATK is a humorous 2D game parody inspired by The Binding of Isaac, developed as a C++ course project. The game uses [SFML library](https://github.com/SFML/SFML) version 2.6.1 and a custom engine.
 
 ## Features
 

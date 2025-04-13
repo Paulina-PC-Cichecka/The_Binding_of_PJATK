@@ -90,4 +90,5 @@ auto Tear::deserializeFromString(const std::string& str) -> void {
     auto posY = float();
     stream >> posX >> posY >> direction_.x >> direction_.y >> scale_ >> damage_;
     tear_.setPosition(posX, posY);
+    tear_.setScale(sf::Vector2f(0.5, 0.5) * scale_);
 }

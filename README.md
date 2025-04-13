@@ -31,7 +31,7 @@ Save files are **stored locally** and can be used to return to your run
 ## Features
 
 - Custom engine (that makes writing a game easier)
-- Custom enemies making sounds (jeżeli to dodamy)
+- Custom enemies
 - Randomized number of opponents
 - Various power-ups that affect player stats
 - Projectile shooting mechanic

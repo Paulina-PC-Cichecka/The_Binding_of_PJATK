@@ -8,8 +8,16 @@ The Binding of PJATK is a humorous 2D game parody inspired by The Binding of Isa
 - Custom enemies based on university teachers
 - Randomized number of opponents
 - Various power-ups that affect player stats
+  
+![power-up](https://github.com/user-attachments/assets/e1fa2dee-a248-456f-b6c3-beadaf2b0289)
+
 - Projectile shooting mechanic
+  
+![projectile-shooting](https://github.com/user-attachments/assets/786742ab-78a3-4d08-b61b-a1910f0ab8d8)
+
 - Dealing and receiving damage
+
+![koniec-gry](https://github.com/user-attachments/assets/8d930982-ea7d-4729-bdef-e2d6fd49f764)
 
 ## About the game engine
 
@@ -33,6 +41,9 @@ The game features a simple yet effective save/load system, allowing players to:
 - Preserve player stats, inventory, room layout, and more
 
 Save files are **stored locally** and can be used to return to your run.
+
+![zapisywanie-stanu-i-wczytywanie](https://github.com/user-attachments/assets/aa0a14a7-d4e1-4ca6-8f20-04e67c58cc3d)
+
 
 ## Requirements
 
